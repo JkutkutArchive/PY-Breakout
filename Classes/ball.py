@@ -41,16 +41,16 @@ class Ball():
         extraX, extraY = (0, 0)
         bounceX, bounceY = (False, False)
         if self._x < 0:
-            extraX = self._x
+            extraX = self._x - self.size()
             bounceX = True
-        elif self._x > self.screenW:
-            extraX = self._x % self.screenW
+        elif self._x > self.screenW - self.size():
+            extraX = self._x % (self.screenW - self.size())
             bounceX = True
-        if self._y < 0:
-            extraY = self._y
+        if self._y < self.size():
+            extraY = self._y - self.size()
             bounceY = True
-        elif self._y > self.screenH:
-            extraY = self._y % self.screenH
+        elif self._y > self.screenH - self.size():
+            extraY = self._y % (self.screenH - self.size())
             bounceY = True
         
         if bounceX:
