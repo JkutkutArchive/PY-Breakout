@@ -11,7 +11,7 @@ class color(object): #Create the COLOR class as a collection of constants
     def BG(): # background
         return (25, 25, 25) 
     @constant
-    def GRID(): # Color of the grid
+    def GREY(): # Color of the grid
         return (128, 128, 128)
     @constant
     def WHITE(): # Color of a living cell
