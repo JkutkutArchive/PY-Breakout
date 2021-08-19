@@ -17,7 +17,7 @@ COLOR = color() # Get the color class with the constants
 screen = pygame.display.set_mode((width, height)) # Set the size of the window
 
 # VARIABLES
-ball = Ball(500, 500)
+ball = Ball(500, 500, width, height)
 
 screen.fill(COLOR.BG) # Clean screen
 gameRunning = True # If false, the game stops
@@ -31,12 +31,6 @@ while gameRunning:
         pygame.draw.circle(screen, COLOR.BG, ball.pos(), ball.size())
         ball.move()
         pygame.draw.circle(screen, ball.color(), ball.pos(), ball.size())
-
-        ballX, ballY = ball.pos()
-        if ballX < 0 or ballX > width:
-            ball.bounce(x=True)
-        if ballY < 0 or ballY > width:
-            ball.bounce(y=True)
 
         # Update the screen
         pygame.display.flip() # Update the screen
