@@ -43,9 +43,9 @@ while gameRunning:
         if event.type == pygame.QUIT: # if quit btn pressed
             gameRunning = False # no longer running game
         
-        # elif event.type == pygame.KEYDOWN: # Key pressed
-        #     if event.key == 32: # Space pressed
-        #         timeRunning = not timeRunning # Toggle the run of iterations
+        elif event.type == pygame.KEYDOWN: # Key pressed
+            if event.key == 32: # Space pressed
+                timeRunning = not timeRunning # Toggle the run of iterations
 
 print("Thanks for playing, I hope you liked it.")
 print("See more projects like this one on https://github.com/jkutkut/")
