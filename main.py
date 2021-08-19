@@ -21,25 +21,25 @@ ball = Ball(500, 500)
 
 screen.fill(COLOR.BG) # Clean screen
 gameRunning = True # If false, the game stops
-timeRunning = False # If true, time runs (so iterations occur)
+timeRunning = True # If true, time runs (so iterations occur)
 while gameRunning:
     # screen.fill(COLOR.BG) # Clean screen
-    
+
+    time.sleep(0.04) # set a delay between each iteration
     if timeRunning:
-        time.sleep(0.02) # set a delay between each iteration
+        # Update the ball
+        pygame.draw.circle(screen, COLOR.BG, ball.pos(), ball.size())
+        ball.move()
+        pygame.draw.circle(screen, ball.color(), ball.pos(), ball.size())
 
-    # Update the ball
-    pygame.draw.circle(screen, COLOR.BG, ball.pos(), ball.size())
-    ball.move()
-    pygame.draw.circle(screen, ball.color(), ball.pos(), ball.size())
+        ballX, ballY = ball.pos()
+        if ballX < 0 or ballX > width:
+            ball.bounce(x=True)
+        if ballY < 0 or ballY > width:
+            ball.bounce(y=True)
 
-    if ball.getX() < 0 or ball.getX() > width:
-        ball.bounce(x=true)
-    if ball.getY() < 0 or ball.getY() > width:
-        ball.bounce(y=true)
-
-    # Update the screen
-    pygame.display.flip() # Update the screen
+        # Update the screen
+        pygame.display.flip() # Update the screen
 
     for event in pygame.event.get(): # for each event
         # if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0] == 1:
