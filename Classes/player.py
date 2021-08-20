@@ -1,15 +1,17 @@
+from typing import Tuple
 import pygame
 from Classes.color import *;
 
 class Player():
+    '''Class for the player in breakout.'''
     def __init__(self, x, screenW, screenH, screen) -> None:
-        self._x = x
+        self._x = x # Only horizontal position is stored, the other is constant
 
         self.screenW = screenW
-        self.screenH = screenH
+        self.screenH = screenH # Also the vertical position
         self.screen = screen
 
-        self.unit = self.screenW // 50
+        self.unit = self.screenW // 50 # unit used to define the height of the player. Works as a base for the shape and movements of this class
 
         self._color = color().WHITE
 
@@ -18,13 +20,16 @@ class Player():
 
     # GETTERS
 
-    def color(self):
+    def color(self) -> Tuple:
+        '''Color of the player.'''
         return self._color
     
-    def pos(self):
+    def pos(self) -> Tuple:
+        '''Position of the player.'''
         return self._x
     
-    def getBodyShape(self):
+    def getBodyShape(self) -> list:
+        '''List with tuples representing the vertices of the player shape as (horizontal, vertical) vectors.'''
         return [
             (self._x - self.unit * 2.5, self.screenH),
             (self._x + self.unit * 2.5, self.screenH),
@@ -32,39 +37,45 @@ class Player():
             (self._x + self.unit * 3.5, self.screenH - self.unit),
             (self._x - self.unit * 3.5, self.screenH - self.unit)
         ]
-    
+
+
     # SETTERS
 
-    def moveLeft(self):
+    def moveLeft(self) -> None:
+        '''Attempts to move the player to the left.'''
         self.clearPlayer()
         self._x -= self.unit
         if self._x < self.unit * 3.5:
             self._x = self.unit * 3.5
         self.showPlayer()
 
-    def moveRight(self):
+    def moveRight(self) -> None:
+        '''Attempts to move the player to the right.'''
         self.clearPlayer()
         self._x += self.unit
         if self._x > self.screenW - self.unit * 3.5:
             self._x = self.screenW - self.unit * 3.5
         self.showPlayer()
 
-    def clearPlayer(self):
-        global pygame
+    def clearPlayer(self) -> None:
+        '''Clears the player from the pygame screen.'''
         pygame.draw.polygon(self.screen, color().BG, self.getBodyShape())
 
-    def showPlayer(self):
-        global pygame
+    def showPlayer(self) -> None:
+        '''Shows the player from the pygame screen.'''
         pygame.draw.polygon(self.screen, self.color(), self.getBodyShape())
 
-    # Ball collision
 
-    def inRange(self, ball):
+    # Ball collision logic
+
+    def inRange(self, ball) -> bool:
+        '''Whenever the current ball is in range of the player.'''
         ballPos = ball.pos()
         return ballPos[1] + ball.size() > self.screenH - self.unit and \
             abs(ballPos[0] - self.pos()) < 3.6 * self.unit
 
-    def makeBallBounce(self, ball):
+    def makeBallBounce(self, ball) -> None:
+        '''Fixes the cliping and makes the ball bounce.'''
         ball.clearBall()
 
         # Fix vertical pos
