@@ -46,12 +46,14 @@ class Ball():
         elif self._x > self.screenW - self.size():
             extraX = self._x % (self.screenW - self.size())
             bounceX = True
+        
         if self._y < self.size():
             extraY = self._y - self.size()
             bounceY = True
-        elif self._y > self.screenH - self.size():
-            extraY = self._y % (self.screenH - self.size())
-            bounceY = True
+        elif self._y > self.screenH:
+            self._y = 0
+            # TODO Add logic for ball eliminated
+
         
         if bounceX:
             self._x -= extraX
