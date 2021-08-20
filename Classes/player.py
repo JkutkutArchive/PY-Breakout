@@ -22,7 +22,7 @@ class Player():
         return self._color
     
     def pos(self):
-        return (self._x, self._y)
+        return self._x
     
     def getBodyShape(self):
         return [
@@ -56,3 +56,22 @@ class Player():
     def showPlayer(self):
         global pygame
         pygame.draw.polygon(self.screen, self.color(), self.getBodyShape())
+
+    # Ball collision
+
+    def inRange(self, ball):
+        ballPos = ball.pos()
+        return ballPos[1] + ball.size() > self.screenH - self.unit and \
+            abs(ballPos[0] - self.pos()) < 3.6 * self.unit
+
+    def makeBallBounce(self, ball):
+        # Fix vertical pos
+        # ball.x -=
+
+        ball.bounce(y=True)
+        self.showPlayer()
+        # ! Problem with player
+
+        # ball._dirY = 0
+        # ball._dirX = 0
+        # ball._color = color().GREY
