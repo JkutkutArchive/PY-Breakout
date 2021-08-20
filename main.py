@@ -19,14 +19,15 @@ screen = pygame.display.set_mode((width, height)) # Set the size of the window
 
 # VARIABLES
 ball = Ball(500, 500, width, height)
-player = Player(500, width, height)
+player = Player(500, width, height, screen)
 
+# Setup screen
 screen.fill(COLOR.BG) # Clean screen
-gameRunning = True # If false, the game stops
-timeRunning = True # If true, time runs (so iterations occur)
-while gameRunning:
-    # screen.fill(COLOR.BG) # Clean screen
+player.showPlayer()
 
+gameRunning = True # If false, the game execution ends
+timeRunning = True # If true, time runs
+while gameRunning:
     time.sleep(0.04) # set a delay between each iteration
     if timeRunning:
         # Update the ball
@@ -35,34 +36,36 @@ while gameRunning:
         pygame.draw.circle(screen, ball.color(), ball.pos(), ball.size())
 
         # Update the player
-        pygame.draw.polygon(screen, player.color(), player.getBodyShape())
-
 
         # Update the screen
         pygame.display.flip() # Update the screen
 
-    for event in pygame.event.get(): # for each event
-        # if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0] == 1:
-        #     if mouse pressed down and it is left click: 
-        #     pos = pygame.mouse.get_pos()
-        #     x = floor(pos[0] / sizeWidthX)
-        #     y = floor(pos[1] / sizeWidthY)
+        # Hold key control
+        k = pygame.key.get_pressed()  #checking pressed keys
+        if k[pygame.K_LEFT] or k[pygame.K_a]: # arrow left
+            player.moveLeft()
+        elif k[pygame.K_RIGHT] or k[pygame.K_d]: # arrow right
+            player.moveRight()
 
-        # if event.type == pygame.MOUSEMOTION: # If mouse moved
-        #     pos = pygame.mouse.get_pos()
-        #     x = floor(pos[0] / sizeWidthX)
-        #     y = floor(pos[1] / sizeWidthY)
-        #     if event.buttons[0] == 1: # If left click hold
-        #         pass
-        #     if event.buttons[2] == 1: # Right click
-        #         pass
-        
-        if event.type == pygame.QUIT: # if quit btn pressed
+    for event in pygame.event.get(): # for each event
+        if (event.type == pygame.ACTIVEEVENT and event.state == 2): # If change on the focus of the window
+            if event.gain == 0: # If focus lost
+                print("lost focus")
+                timeRunning = True
+            elif event.gain == 1: # If focus recovered
+                print("focus")
+                timeRunning = False
+
+        elif event.type == pygame.QUIT: # if quit btn pressed
             gameRunning = False # no longer running game
         
         elif event.type == pygame.KEYDOWN: # Key pressed
             if event.key == 32: # Space pressed
                 timeRunning = not timeRunning # Toggle the run of iterations
+            elif event.key == 276 or event.key == 97: # Arrow left
+                player.moveLeft()
+            elif event.key == 275 or event.key == 100: # Arrow right
+                player.moveRight()
 
 print("\nThanks for playing, I hope you liked it.")
 print("See more projects like this one on https://github.com/jkutkut/")
