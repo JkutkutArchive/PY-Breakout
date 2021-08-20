@@ -3,7 +3,7 @@ from Classes.color import *;
 
 class Ball():
 
-    '''Ball class for the game Breakout'''
+    '''Ball class for the game Breakout.'''
     
     def __init__(self, x, y, screenW, screenH, screen) -> None:
         # Store position
@@ -25,26 +25,26 @@ class Ball():
     # GETTERS
 
     def color(self) -> tuple:
-        '''RGB tuple with the current color of the ball'''
+        '''RGB tuple with the current color of the ball.'''
         return self._color
 
     def pos(self) -> tuple:
-        '''Position of the ball as a tuple (horizontal, vertical)'''
+        '''Position of the ball as a tuple (horizontal, vertical).'''
         return (self._x, self._y)
     
     def size(self) -> int:
-        '''Radius of the ball'''
+        '''Radius of the ball.'''
         return self._size
 
     # SETTERS
     
     def bounce(self, x=False, y=False) -> None:
-        '''Make the ball bounce on the axis given'''
+        '''Make the ball bounce on the axis given.'''
         if x: self._dirX *= -1
         if y: self._dirY *= -1
 
     def move(self) -> None:
-        '''Move the ball in the current direction. If a wall is reached, make it bounce'''
+        '''Move the ball in the current direction. If a wall is reached, make it bounce.'''
         self.clearBall() # Make the ball dissapear of the screen
         
         # Move the ball
@@ -76,9 +76,9 @@ class Ball():
         self.showBall() # Show the ball again
         
     def clearBall(self) -> None:
-        '''Clears the ball from the pygame screen'''
+        '''Clears the ball from the pygame screen.'''
         pygame.draw.circle(self.screen, color().BG, self.pos(), self.size())
     
     def showBall(self) -> None:
-        '''Shows the ball from the pygame screen'''
+        '''Shows the ball from the pygame screen.'''
         pygame.draw.circle(self.screen, self.color(), self.pos(), self.size())

@@ -9,23 +9,18 @@ pygame.init() # Init pygame
 pygame.display.set_caption("Breakout") # Set the title of the game
 
 # CONSTANTS
-width, height = 1000, 1000 
-# sizeX, sizeY = 50, 50 # Number of cell spots in each axis
-# sizeWidthX = width / sizeX # Size of each spot
-# sizeWidthY = height / sizeY
+width, height = 800, 1000
 COLOR = color() # Get the color class with the constants
 
 screen = pygame.display.set_mode((width, height)) # Set the size of the window
 
-
-# VARIABLES
-# ball = Ball(300, 800, width, height)
-ball = Ball(300, 830, width, height, screen)
-player = Player(500, width, height, screen)
-
 # Setup screen
 screen.fill(COLOR.BG) # Clean screen
-player.showPlayer()
+
+# VARIABLES
+ball = Ball(300, 800, width, height, screen)
+player = Player(500, width, height, screen)
+
 
 gameRunning = True # If false, the game execution ends
 timeRunning = True # If true, time runs
