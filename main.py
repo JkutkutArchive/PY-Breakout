@@ -3,6 +3,7 @@ import pygame; # library to generate the graphic interface
 import time; # to set a delay between each iteration
 from Classes.color import color;
 from Classes.ball import Ball;
+from Classes.player import Player;
 
 pygame.init() # Init pygame
 pygame.display.set_caption("Breakout") # Set the title of the game
@@ -18,6 +19,7 @@ screen = pygame.display.set_mode((width, height)) # Set the size of the window
 
 # VARIABLES
 ball = Ball(500, 500, width, height)
+player = Player(500, width, height)
 
 screen.fill(COLOR.BG) # Clean screen
 gameRunning = True # If false, the game stops
@@ -31,6 +33,10 @@ while gameRunning:
         pygame.draw.circle(screen, COLOR.BG, ball.pos(), ball.size())
         ball.move()
         pygame.draw.circle(screen, ball.color(), ball.pos(), ball.size())
+
+        # Update the player
+        pygame.draw.polygon(screen, player.color(), player.getBodyShape())
+
 
         # Update the screen
         pygame.display.flip() # Update the screen
