@@ -1,13 +1,15 @@
-from Classes.color import *
+import pygame;
+from Classes.color import *;
 
 
 class Ball():
-    def __init__(self, x, y, screenW, screenH) -> None:
+    def __init__(self, x, y, screenW, screenH, screen) -> None:
         self._x = x
         self._y = y
 
         self.screenW = screenW
         self.screenH = screenH
+        self.screen = screen
 
         self._dirX = 15
         self._dirY = 10
@@ -34,6 +36,8 @@ class Ball():
         if y: self._dirY *= -1
 
     def move(self):
+        self.clearBall()
+        
         self._x += self._dirX
         self._y += self._dirY
 
@@ -54,7 +58,6 @@ class Ball():
             self._y = 0
             # TODO Add logic for ball eliminated
 
-        
         if bounceX:
             self._x -= extraX
             self.bounce(x=True)
@@ -62,3 +65,10 @@ class Ball():
             self._y -= extraY
             self.bounce(y=True)
         
+        self.showBall()
+        
+    def clearBall(self):
+        pygame.draw.circle(self.screen, color().BG, self.pos(), self.size())
+    
+    def showBall(self):
+        pygame.draw.circle(self.screen, self.color(), self.pos(), self.size())

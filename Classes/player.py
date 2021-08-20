@@ -65,13 +65,11 @@ class Player():
             abs(ballPos[0] - self.pos()) < 3.6 * self.unit
 
     def makeBallBounce(self, ball):
+        ball.clearBall()
+
         # Fix vertical pos
-        # ball.x -=
-
+        ball._y -= (ball._y + ball.size()) - (self.screenH - self.unit)
+        
         ball.bounce(y=True)
-        self.showPlayer()
-        # ! Problem with player
-
-        # ball._dirY = 0
-        # ball._dirX = 0
-        # ball._color = color().GREY
+        
+        self.showPlayer() # Update the player without the ball cliping thought (should not be visible this way)

@@ -17,9 +17,10 @@ COLOR = color() # Get the color class with the constants
 
 screen = pygame.display.set_mode((width, height)) # Set the size of the window
 
+
 # VARIABLES
 # ball = Ball(300, 800, width, height)
-ball = Ball(300, 830, width, height)
+ball = Ball(300, 830, width, height, screen)
 player = Player(500, width, height, screen)
 
 # Setup screen
@@ -32,13 +33,9 @@ while gameRunning:
     time.sleep(0.04) # set a delay between each iteration
     if timeRunning:
         # Update the ball
-        pygame.draw.circle(screen, COLOR.BG, ball.pos(), ball.size())
         ball.move()
         if player.inRange(ball):
             player.makeBallBounce(ball)
-        pygame.draw.circle(screen, ball.color(), ball.pos(), ball.size())
-
-        # Update the player
 
         # Update the screen
         pygame.display.flip() # Update the screen
