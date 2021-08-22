@@ -16,7 +16,7 @@ class brick():
 
         self._color = color().WHITE
 
-        unit = screenW // 50
+        unit = screenW // 30
         self.height = unit // 2
         self.width = unit
 
@@ -30,13 +30,13 @@ class brick():
         '''Position of the brick as a tuple (horizontal, vertical).'''
         return (self._x, self._y)
 
-    def getBodyShape(self) -> list:
+    def getBodyShape(self, offset=0) -> list:
         '''List of tuples representing the vertices of the brick shape as (horizontal, vertical) vectors.'''
         return [
-            (self._x - self.width, self._y - self.height),
-            (self._x - self.width, self._y + self.height),
-            (self._x + self.width, self._y + self.height),
-            (self._x + self.width, self._y - self.height)
+            (self._x - self.width + offset, self._y - self.height + offset),
+            (self._x - self.width + offset, self._y + self.height - offset),
+            (self._x + self.width - offset, self._y + self.height - offset),
+            (self._x + self.width - offset, self._y - self.height + offset)
         ]
     
     # SETTERS
@@ -47,7 +47,8 @@ class brick():
     
     def show(self) -> None:
         '''Shows the brick from the pygame screen.'''
-        pygame.draw.polygon(self.screen, self.color(), self.getBodyShape())
+        pygame.draw.polygon(self.screen, color().GREY, self.getBodyShape())
+        pygame.draw.polygon(self.screen, self.color(), self.getBodyShape(offset=3))
 
 
 
