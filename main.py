@@ -4,6 +4,7 @@ import time; # to set a delay between each iteration
 from Classes.color import color;
 from Classes.ball import Ball;
 from Classes.player import Player;
+from Classes.brick import Brick;
 
 pygame.init() # Init pygame
 pygame.display.set_caption("Breakout") # Set the title of the game
@@ -20,6 +21,12 @@ screen.fill(COLOR.BG) # Clean screen
 # VARIABLES
 ball = Ball(500, 500, width, height, screen)
 player = Player(500, width, height, screen)
+
+bricks = set()
+bricks.add(Brick(100, 100, width, height, screen))
+
+for b in bricks:
+    b.show()
 
 
 gameRunning = True # If false, the game execution ends
