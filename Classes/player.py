@@ -84,3 +84,7 @@ class Player():
         ball.bounce(y=True)
         
         self.showPlayer() # Update the player without the ball cliping thought (should not be visible this way)
+
+        # Change direction based on the location of the hit
+        amount = (ball._x - self._x) / (3.5 * self.unit) # per-one representing the amount to the side (1 > right side > 0 > left side > -1)
+        ball.redirect(amount)

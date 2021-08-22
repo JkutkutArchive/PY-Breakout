@@ -18,7 +18,7 @@ screen = pygame.display.set_mode((width, height)) # Set the size of the window
 screen.fill(COLOR.BG) # Clean screen
 
 # VARIABLES
-ball = Ball(300, 800, width, height, screen)
+ball = Ball(500, 500, width, height, screen)
 player = Player(500, width, height, screen)
 
 

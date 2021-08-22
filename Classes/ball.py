@@ -1,4 +1,4 @@
-import pygame;
+import pygame, math;
 from Classes.color import *;
 
 class Ball():
@@ -14,9 +14,11 @@ class Ball():
         self.screenH = screenH
         self.screen = screen
 
-        # store Δ-direction
-        self._dirX = 15
-        self._dirY = 10
+        # store direction
+        self._dirX = None
+        self._dirY = None
+        self.mag = 18 # Velocity of the ball
+        self.changeAngle(- math.pi /3)
 
         self._color = color().WHITE
 
@@ -82,3 +84,13 @@ class Ball():
     def showBall(self) -> None:
         '''Shows the ball from the pygame screen.'''
         pygame.draw.circle(self.screen, self.color(), self.pos(), self.size())
+    
+    # Angle
+
+    def changeAngle(self, angle):
+        self._dirX = self.mag * math.cos(angle)
+        self._dirY = self.mag * math.sin(angle)
+    
+    def redirect(self, amount):
+        angle = -(math.pi / 2) + (math.pi / 3 * amount)
+        self.changeAngle(angle)
