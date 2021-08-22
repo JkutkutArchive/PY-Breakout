@@ -88,9 +88,14 @@ class Ball():
     # Angle
 
     def changeAngle(self, angle):
+        '''Changes the direction of the ball with the given angle (radians).'''
         self._dirX = self.mag * math.cos(angle)
         self._dirY = self.mag * math.sin(angle)
     
     def redirect(self, amount):
+        ''' When the ball bounces on player, this method is executed with the ratio (per-one) representing how far the ball has bounced from the player.
+
+            Amount: -1 < left side < 0 < right side < 1
+        '''
         angle = -(math.pi / 2) + (math.pi / 3 * amount)
         self.changeAngle(angle)
