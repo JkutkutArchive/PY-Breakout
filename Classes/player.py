@@ -1,4 +1,3 @@
-from typing import Tuple
 import pygame
 from Classes.color import *;
 
@@ -20,11 +19,11 @@ class Player():
 
     # GETTERS
 
-    def color(self) -> Tuple:
+    def color(self) -> tuple:
         '''Color of the player.'''
         return self._color
     
-    def pos(self) -> Tuple:
+    def pos(self) -> tuple:
         '''Position of the player.'''
         return self._x
     
