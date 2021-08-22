@@ -23,7 +23,15 @@ ball = Ball(500, 500, width, height, screen)
 player = Player(500, width, height, screen)
 
 bricks = set()
-bricks.add(Brick(100, 100, width, height, screen))
+
+# Create bricks
+unit = width // 15
+for j in range(5):
+    for i in range(13):
+        bricks.add(Brick((i + 1.5) * unit, 100 + j * unit, width, height, screen))
+    for i in range(12):
+        bricks.add(Brick((i + 2) * unit, 100 + (j + 0.5) * unit, width, height, screen))
+
 
 for b in bricks:
     b.show()
