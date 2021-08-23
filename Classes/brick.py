@@ -1,4 +1,4 @@
-import pygame;
+import pygame, math;
 from Classes.color import color;
 
 class brick():
@@ -38,6 +38,46 @@ class brick():
             (self._x + self.width - offset, self._y + self.height - offset),
             (self._x + self.width - offset, self._y - self.height + offset)
         ]
+
+    def inRange(self, ball):
+        '''Checks if ball colliding with brick. Code based on code from http://jeffreythompson.org/collision-detection/circle-rect.php'''
+        # temporary variables to set edges for testing
+        cx, cy = ball.pos()
+        rx, ry = self.pos()
+        rw = self.width * 2
+        rh = self.height * 2
+
+        rx -= self.width
+        ry -= self.height
+        
+        testX = cx
+        testY = cy
+
+        # * which edge is closest?
+        closest = ""
+        if cx < rx:
+            testX = rx # left edge
+            closest = "left"
+        elif cx > rx + rw:
+            testX = rx + rw # right edge
+            closest = "right"
+
+        if cy < ry:
+            testY = ry # top edge
+            closest = "top"
+        elif cy > ry + rh:
+            testY = ry + rh # bottom edge
+            closest = "bottom"
+
+        distX = cx - testX
+        distY = cy - testY
+
+        distance = math.sqrt((distX * distX) + (distY * distY))
+
+        if distance <= ball.size():
+            print(closest)
+        
+        return distance <= ball.size()
     
     # SETTERS
 
