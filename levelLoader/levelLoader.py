@@ -73,14 +73,15 @@ def getWallIterator(level):
     brickType = getBrickType(level)
     
     for r in range(level["rows"]):
-        row = level["verticalStart"] + r * level["gap"]
+        row = level["verticalStart"] + r * level["verticalGap"]
         startOffset = brick.width
         if level["oddRow"]:
             startOffset = brick.width * 2
-            ite.add((brickType, width / 2, 2 * row * brick.height))
+            if not level["skipOddRow"]:
+                ite.add((brickType, width / 2, 2 * row * brick.height))
 
         for w in range(level["horizontalHalfAmount"]):
-            amount = startOffset + w * brick.width * 2
+            amount = startOffset + w * brick.width * 2 * level["horizontalGap"]
             for m in (-1, 1):
                 ite.add((brickType, width / 2 + m * amount, 2 * row * brick.height))
     return ite

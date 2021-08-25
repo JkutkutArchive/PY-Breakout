@@ -3,6 +3,23 @@
         {
             "bricks": [
                 {
+                    "type": "wall",
+                    "brickType": "normalBrick",
+
+                    "oddRow": true,
+                    "skipOddRow": false,
+                    "horizontalHalfAmount": 6,
+                    
+                    "verticalStart": 4,
+                    "rows": 8,
+                    "verticalGap": 1,
+                    "horizontalGap": 1
+                }
+            ]
+        },
+        {
+            "bricks": [
+                {
                     "type": "centralMass",
                     "brickType": "normalBrick",
 
@@ -23,11 +40,13 @@
                     "brickType": "normalBrick",
 
                     "oddRow": true,
-                    "horizontalHalfAmount": 6,
+                    "skipOddRow": true,
+                    "horizontalHalfAmount": 3,
                     
                     "verticalStart": 4,
-                    "rows": 8,
-                    "gap": 1
+                    "rows": 12,
+                    "verticalGap": 1,
+                    "horizontalGap": 2
                 }
             ]
         }
