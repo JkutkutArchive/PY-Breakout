@@ -80,11 +80,11 @@ class Ball():
 
         self.showBall() # Show the ball again
         
-    def clearBall(self) -> None:
+    def clear(self) -> None:
         '''Clears the ball from the pygame screen.'''
         pygame.draw.circle(self.screen, color().BG, self.pos(), self.size())
     
-    def showBall(self) -> None:
+    def show(self) -> None:
         '''Shows the ball from the pygame screen.'''
         pygame.draw.circle(self.screen, self.color(), self.pos(), self.size())
     
