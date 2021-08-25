@@ -2,9 +2,6 @@
 import pygame; # library to generate the graphic interface
 import time; # to set a delay between each iteration
 from Classes.color import color;
-from Classes.ball import Ball;
-from Classes.player import Player;
-# from Classes.brick import Brick, BrickHeavy;
 from levelLoader.levelLoader import *
 
 pygame.init() # Init pygame
@@ -27,15 +24,9 @@ gameRunning = True # If false, the game execution ends
 timeRunning = True # If true, time runs
 while gameRunning:
     time.sleep(0.04) # set a delay between each iteration
-    # time.sleep(0.4) # set a delay between each iteration
     if timeRunning:
         # Update the ball
         ball.move()
-        # ball.clear()
-        # pos = pygame.mouse.get_pos()
-        # ball._x = pos[0]
-        # ball._y = pos[1]
-        # ball.show()
 
         if player.inRange(ball):
             player.makeBallBounce(ball)
@@ -49,9 +40,10 @@ while gameRunning:
         
         bricks -= bricksDestroyed # Remove all bricks destroyed
         if len(bricks) == 0:
-            timeRunning = False
-            # currentLvl += 1
-            # loadLevel(currentLvl)
+            # timeRunning = False
+            currentLvl += 1
+            player, ball, bricks = loadLevel(currentLvl)
+            continue
 
 
         # Update the screen
@@ -83,6 +75,9 @@ while gameRunning:
                 player.moveLeft()
             elif event.key == 275 or event.key == 100: # Arrow right
                 player.moveRight()
+            elif event.key == 110: # n pressed
+                currentLvl = (currentLvl + 1) % 3 + 1
+                player, ball, bricks = loadLevel(currentLvl)
 
 print("\nThanks for playing, I hope you liked it.")
 print("See more projects like this one on https://github.com/jkutkut/")

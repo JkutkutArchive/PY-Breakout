@@ -29,6 +29,7 @@ def setup(w, h, s):
     Ball.radius = 5
 
 def getLevel(lvl, type="classic"):
+    global levels
     if not isinstance(lvl, int):
         raise Exception("The lvl must be an integer.")
     return levels[type][lvl - 1]
