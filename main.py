@@ -19,7 +19,7 @@ screen = pygame.display.set_mode((width, height)) # Set the size of the window
 screen.fill(COLOR.BG) # Clean screen
 
 # VARIABLES
-ball = Ball(500, 900, width, height, screen)
+ball = Ball(50, 50, width, height, screen)
 player = Player(500, width, height, screen)
 
 bricks = set()
@@ -38,7 +38,8 @@ for j in range(5):
 # bricks.add(Brick(500, 200, width, height, screen))
 
 # ball._dirX = 0
-
+# ball._dirX *= -1
+# bouncesRemaining = 10
 
 
 
@@ -50,6 +51,7 @@ gameRunning = True # If false, the game execution ends
 timeRunning = True # If true, time runs
 while gameRunning:
     time.sleep(0.04) # set a delay between each iteration
+    # time.sleep(0.1) # set a delay between each iteration
     if timeRunning:
         # Update the ball
         ball.move()
@@ -65,11 +67,12 @@ while gameRunning:
         # Check bricks
         for b in bricks:
             b.attemptHit(ball)
-            # if b.inRange(ball):
-            #     # timeRunning = False
-            #     # print("in range")
-            #     # break
-            #     pass
+            # result = b.attemptHit(ball)
+            # if result:
+            #     bouncesRemaining -= 1
+            #     if bouncesRemaining == 0:
+            #         timeRunning = False
+            #         break
 
         # Update the screen
         pygame.display.flip() # Update the screen
