@@ -102,13 +102,13 @@ def getCentralMassIterator(level):
         for _ in range(level["vRadius"]):
             startOffset = brick.width
             if level["oddStart"]:
-                startOffset = brick.width * 2
-                ite.add((brickType, width / 2, 2 * row * brick.height))
+                startOffset = brick.width * 2 + 1
+                ite.add((brickType, width / 2, row * (2 * brick.height + 1)))
             
             for w in range(currentRadius):
-                amount = startOffset + w * brick.width * 2
+                amount = startOffset + w * (brick.width * 2 + 1)
                 for m in (-1, 1):
-                    ite.add((brickType, width / 2 + m * amount, 2 * row * brick.height))
+                    ite.add((brickType, width / 2 + m * amount, row * (2 * brick.height + 1)))
             currentRadius += growDir * growRate
             row += 1
         currentRadius -= 1
