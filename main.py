@@ -4,7 +4,7 @@ import time; # to set a delay between each iteration
 from Classes.color import color;
 from Classes.ball import Ball;
 from Classes.player import Player;
-from Classes.brick import Brick;
+from Classes.brick import Brick, BrickHeavy;
 
 pygame.init() # Init pygame
 pygame.display.set_caption("Breakout") # Set the title of the game
@@ -25,12 +25,12 @@ player = Player(500, width, height, screen)
 bricks = set()
 
 # Create bricks
-unit = width // 15
+unit = width // 15 + 1
 for j in range(5):
     for i in range(13):
         bricks.add(Brick((i + 1.5) * unit, 100 + j * unit, width, height, screen))
     for i in range(12):
-        bricks.add(Brick((i + 2) * unit, 100 + (j + 0.5) * unit, width, height, screen))
+        bricks.add(BrickHeavy((i + 2) * unit, 100 + (j + 0.5) * unit, width, height, screen))
 
 # bricks.add(Brick(700, 500, width, height, screen))
 # bricks.add(Brick(200, 500, width, height, screen))
@@ -51,7 +51,7 @@ gameRunning = True # If false, the game execution ends
 timeRunning = True # If true, time runs
 while gameRunning:
     time.sleep(0.04) # set a delay between each iteration
-    # time.sleep(0.1) # set a delay between each iteration
+    # time.sleep(0.4) # set a delay between each iteration
     if timeRunning:
         # Update the ball
         ball.move()
@@ -65,14 +65,19 @@ while gameRunning:
             player.makeBallBounce(ball)
 
         # Check bricks
+        bricksDestroyed = set()
         for b in bricks:
             b.attemptHit(ball)
+            if b.destroyed():
+                bricksDestroyed.add(b)
             # result = b.attemptHit(ball)
             # if result:
             #     bouncesRemaining -= 1
             #     if bouncesRemaining == 0:
             #         timeRunning = False
             #         break
+        
+        bricks -= bricksDestroyed # Remove all bricks destroyed
 
         # Update the screen
         pygame.display.flip() # Update the screen

@@ -38,6 +38,22 @@ class brick():
             (self._x + self.width - offset, self._y + self.height - offset),
             (self._x + self.width - offset, self._y - self.height + offset)
         ]
+    
+    def destroyed(self) -> bool:
+        '''Whenever the brick has been destroyed.'''
+        return False
+
+    
+    # SETTERS
+
+    def clear(self) -> None:
+        '''Clears the brick from the pygame screen.'''
+        pygame.draw.polygon(self.screen, color().BG, self.getBodyShape())
+    
+    def show(self) -> None:
+        '''Shows the brick from the pygame screen.'''
+        pygame.draw.polygon(self.screen, color().GREY, self.getBodyShape())
+        pygame.draw.polygon(self.screen, self.color(), self.getBodyShape(offset=3))
 
     def attemptHit(self, ball) -> bool:
         '''Checks if ball colliding with brick and reacts to it.
@@ -97,18 +113,12 @@ class brick():
             ball._y -= iterations * ballDirN[1] / 2
 
         ball.show()
+        self.hitMade()
         return True
-    
-    # SETTERS
 
-    def clear(self) -> None:
-        '''Clears the brick from the pygame screen.'''
-        pygame.draw.polygon(self.screen, color().BG, self.getBodyShape())
-    
-    def show(self) -> None:
-        '''Shows the brick from the pygame screen.'''
-        pygame.draw.polygon(self.screen, color().GREY, self.getBodyShape())
-        pygame.draw.polygon(self.screen, self.color(), self.getBodyShape(offset=3))
+    def hitMade(self) -> None:
+        '''When the brick has been hitten, this function is executed.'''
+        pass
 
 
 
@@ -119,4 +129,21 @@ class Brick(brick):
         super().__init__(x, y, screenW, screenH, screen)
 
         self.health = 1
+    
+    def hitMade(self):
+        super().hitMade()
+        self.health -= 1
+        if self.destroyed():
+            self.clear()
+    
+    def destroyed(self) -> bool:
+        return self.health <= 0
+
+
+class BrickHeavy(brick):
+    '''Indestructible brick.'''
+
+    def __init__(self, x, y, screenW, screenH, screen) -> None:
+        super().__init__(x, y, screenW, screenH, screen)
+        self._color = color().BG
     
