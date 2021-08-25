@@ -75,16 +75,16 @@ def getWallIterator(level):
     
     for r in range(level["rows"]):
         row = level["verticalStart"] + r * level["verticalGap"]
-        startOffset = brick.width
+        startOffset = brick.width + 0.5
         if level["oddRow"]:
-            startOffset = brick.width * 2
+            startOffset = brick.width * 2 + 1
             if not level["skipOddRow"]:
-                ite.add((brickType, width / 2, 2 * row * brick.height))
+                ite.add((brickType, width / 2, row * (2 * brick.height + 1)))
 
         for w in range(level["horizontalHalfAmount"]):
-            amount = startOffset + w * brick.width * 2 * level["horizontalGap"]
+            amount = startOffset + w * (brick.width * 2 * level["horizontalGap"] + 1)
             for m in (-1, 1):
-                ite.add((brickType, width / 2 + m * amount, 2 * row * brick.height))
+                ite.add((brickType, width / 2 + m * amount, row * (2 * brick.height + 1)))
     return ite
 
 def getCentralMassIterator(level):
