@@ -58,22 +58,19 @@ def getIterator(level):
     ite = set()
     for l in level["bricks"]:
         f = None
-        if l["version"] == 1:
-            f = getMk1Iterator
+        if l["type"] == "wall":
+            f = getWallIterator
+        elif l["type"] == "centralMass":
+            f = getCentralMassIterator
         
         ite = ite.union(f(l))
     return ite
 
-def getMk1Iterator(level):
-    global width, height
-
+def getWallIterator(level):
+    global width
     ite = set()
 
-    brickType = None
-    if level["type"] == "normalBrick":
-        brickType = Brick
-    else:
-        brickType = BrickHeavy
+    brickType = getBrickType(level)
     
     for r in range(level["rows"]):
         row = level["verticalStart"] + r * level["gap"]
@@ -87,3 +84,39 @@ def getMk1Iterator(level):
             for m in (-1, 1):
                 ite.add((brickType, width / 2 + m * amount, 2 * row * brick.height))
     return ite
+
+def getCentralMassIterator(level):
+    global width
+    ite = set()
+
+    brickType = getBrickType(level)
+
+    deltaGrow = level["hRadius"] - level["startRadius"]
+    growRate = deltaGrow // level["vRadius"]
+    
+    currentRadius = level["startRadius"]
+    row = level["verticalStart"]
+    for growDir in (1, -1):
+        for _ in range(level["vRadius"]):
+            startOffset = brick.width
+            if level["oddStart"]:
+                startOffset = brick.width * 2
+                ite.add((brickType, width / 2, 2 * row * brick.height))
+            
+            for w in range(currentRadius):
+                amount = startOffset + w * brick.width * 2
+                for m in (-1, 1):
+                    ite.add((brickType, width / 2 + m * amount, 2 * row * brick.height))
+            currentRadius += growDir * growRate
+            row += 1
+        currentRadius -= 1
+    return ite
+
+
+# Help functions
+
+def getBrickType(level):
+    if level["brickType"] == "normalBrick":
+        return Brick
+    else:
+        return BrickHeavy

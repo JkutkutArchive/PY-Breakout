@@ -1,11 +1,27 @@
 {
     "classic": [
         {
-            "id": 1,
             "bricks": [
                 {
-                    "version": 1,
-                    "type": "normalBrick",
+                    "type": "centralMass",
+                    "brickType": "normalBrick",
+
+                    "verticalStart": 4,
+
+                    "startRadius": 0,
+                    "hRadius": 6,
+                    "vRadius": 6,
+                    
+                    "oddStart": true
+                }
+            ]
+        },
+        {
+            "bricks": [
+                {
+                    "type": "wall",
+                    "brickType": "normalBrick",
+
                     "oddRow": true,
                     "horizontalHalfAmount": 6,
                     
