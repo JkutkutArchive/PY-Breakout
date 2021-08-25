@@ -14,7 +14,7 @@ class Player():
 
         self._color = color().WHITE
 
-        self.showPlayer()
+        self.show()
 
 
     # GETTERS
@@ -42,25 +42,25 @@ class Player():
 
     def moveLeft(self) -> None:
         '''Attempts to move the player to the left.'''
-        self.clearPlayer()
+        self.clear()
         self._x -= self.unit
         if self._x < self.unit * 3.5:
             self._x = self.unit * 3.5
-        self.showPlayer()
+        self.show()
 
     def moveRight(self) -> None:
         '''Attempts to move the player to the right.'''
-        self.clearPlayer()
+        self.clear()
         self._x += self.unit
         if self._x > self.screenW - self.unit * 3.5:
             self._x = self.screenW - self.unit * 3.5
-        self.showPlayer()
+        self.show()
 
-    def clearPlayer(self) -> None:
+    def clear(self) -> None:
         '''Clears the player from the pygame screen.'''
         pygame.draw.polygon(self.screen, color().BG, self.getBodyShape())
 
-    def showPlayer(self) -> None:
+    def show(self) -> None:
         '''Shows the player from the pygame screen.'''
         pygame.draw.polygon(self.screen, self.color(), self.getBodyShape())
 
@@ -75,12 +75,12 @@ class Player():
 
     def makeBallBounce(self, ball) -> None:
         '''Fixes the cliping and makes the ball bounce.'''
-        ball.clearBall()
+        ball.clear()
 
         # Fix vertical pos
         ball._y -= (ball._y + ball.size()) - (self.screenH - self.unit)
         
-        self.showPlayer() # Update the player without the ball cliping thought (should not be visible this way)
+        self.show() # Update the player without the ball cliping thought (should not be visible this way)
 
         # Change direction based on the location of the hit
         amount = (ball._x - self._x) / (3.5 * self.unit) # per-one representing the amount to the side (1 > right side > 0 > left side > -1)
