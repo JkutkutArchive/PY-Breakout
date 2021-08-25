@@ -5,6 +5,8 @@ class Ball():
 
     '''Ball class for the game Breakout.'''
     
+    radius = 5 # Radius of the ball
+
     def __init__(self, x, y, screenW, screenH, screen) -> None:
         # Store position
         self._x = x
@@ -22,8 +24,6 @@ class Ball():
 
         self._color = color().WHITE
 
-        self._size = 5 # Radius of the ball
-
     # GETTERS
 
     def color(self) -> tuple:
@@ -40,7 +40,7 @@ class Ball():
 
     def size(self) -> int:
         '''Radius of the ball.'''
-        return self._size
+        return Ball.radius
     
     def angle(self):
         '''Angle of the current direction relative to the vector (1, 0)'''
