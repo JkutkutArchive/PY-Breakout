@@ -40,38 +40,64 @@ class brick():
         ]
 
     def attemptHit(self, ball):
-        '''Checks if ball colliding with brick. Code based on code from http://jeffreythompson.org/collision-detection/circle-rect.php'''
-        # temporary variables to set edges for testing
+        '''Checks if ball colliding with brick.'''
         cx, cy = ball.pos()
         rx, ry = self.pos()
 
         deltaX = rx - cx
         deltaY = ry - cy
 
+        collision = False
         if abs(deltaX) > abs(deltaY) * 2: # Horizontal collision
-            # print("Checking horizontal")
-            if abs(deltaX) - ball.size() < self.width: # If vertical hit
-                ball.bounce(x=True)
-                
-                # fix vertical position
-                amount = (ball._x + ball.size()) - (self._x - self.width)
-                if deltaX > 0:
-                    amount *= -1
-                ball.clear()
-                ball._y += amount
-                ball.show()
+            if abs(deltaX) - ball.size() < self.width: # If horizontal hit
+                collision = True
         else: # Vertical collision
-            # print(f"Checking vertical: {int(deltaY)} -> {self.height} {ball.size()}")
             if abs(deltaY) - ball.size() < self.height: # If vertical hit
-                ball.bounce(y=True)
-                
-                # fix vertical position
-                amount = (ball._y + ball.size()) - (self._y - self.height)
-                if deltaY > 0:
-                    amount *= -1
-                ball.clear()
-                ball._y += amount
-                ball.show()
+                collision = True
+
+        if not collision: return False
+
+        ball.clear()
+        self.show()
+
+        # Fix position
+        # Get normal vector on the oposite direction of the ball trajectory
+        ballDirN = ball.direction()
+        mag = math.sqrt(ballDirN[0] * ballDirN[0] + ballDirN[1] * ballDirN[1])
+        ballDirN = [ballDirN[0] / mag, ballDirN[1] / mag]
+
+        iterations = 0 # Go back until the edge of the brick is reached
+        while abs(deltaX) - ball.size() < self.width and \
+            abs(deltaY) - ball.size() < self.height:
+
+            ball._x -= ballDirN[0]
+            ball._y -= ballDirN[1]
+            iterations += 1
+
+            cx, cy = ball.pos()
+            deltaX = rx - cx; deltaY = ry - cy
+
+        
+        epsilon = 1
+        hHit = abs((abs(deltaX) - ball.size()) - self.width) < epsilon
+        vHit = abs((abs(deltaY) - ball.size()) - self.height) < epsilon
+
+        if hHit and vHit:
+            print("double hit?")
+            print(ballDirN)
+
+        elif hHit: # If horizontal hit
+            ball.bounce(x=True)
+            ball._x -= iterations * ballDirN[0] / 2
+            ball._y += iterations * ballDirN[1] # Restore position
+
+        elif vHit: # If vertical hit
+            ball.bounce(y=True)
+            ball._x += iterations * ballDirN[0] # Restore position
+            ball._y -= iterations * ballDirN[1] / 2
+
+        ball.show()
+        return True
     
     # SETTERS
 
