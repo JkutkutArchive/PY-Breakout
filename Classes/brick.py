@@ -5,6 +5,9 @@ class brick():
     
     '''Prototype of the Brick classes.'''
 
+    height = 0
+    width = 0
+
     def __init__(self, x, y, screenW, screenH, screen) -> None:
         # Store position
         self._x = x
@@ -16,11 +19,16 @@ class brick():
 
         self._color = color().WHITE
 
-        unit = screenW // 30
-        self.height = unit // 2
-        self.width = unit
+        # brick.width = brick.width
+        # brick.height = brick.height
 
     # GETTERS
+
+    def width(self):
+        return brick.width
+    
+    def height(self):
+        return brick.height
 
     def color(self) -> tuple:
         '''RGB tuple with the current color of the brick.'''
@@ -33,10 +41,10 @@ class brick():
     def getBodyShape(self, offset=0) -> list:
         '''List of tuples representing the vertices of the brick shape as (horizontal, vertical) vectors.'''
         return [
-            (self._x - self.width + offset, self._y - self.height + offset),
-            (self._x - self.width + offset, self._y + self.height - offset),
-            (self._x + self.width - offset, self._y + self.height - offset),
-            (self._x + self.width - offset, self._y - self.height + offset)
+            (self._x - brick.width + offset, self._y - brick.height + offset),
+            (self._x - brick.width + offset, self._y + brick.height - offset),
+            (self._x + brick.width - offset, self._y + brick.height - offset),
+            (self._x + brick.width - offset, self._y - brick.height + offset)
         ]
     
     def destroyed(self) -> bool:
@@ -68,9 +76,9 @@ class brick():
         # Check if it apears to be a collision
         collision = False
         if abs(deltaX) > abs(deltaY) * 2: # Horizontal collision
-            collision = abs(deltaX) - ball.size() < self.width # If horizontal hit
+            collision = abs(deltaX) - ball.size() < brick.width # If horizontal hit
         else: # Vertical collision
-            collision = abs(deltaY) - ball.size() < self.height # If vertical hit
+            collision = abs(deltaY) - ball.size() < brick.height # If vertical hit
 
         if not collision: return False
 
@@ -84,8 +92,8 @@ class brick():
         ballDirN = [ballDirN[0] / mag, ballDirN[1] / mag]
 
         iterations = 0 # Go back until the edge of the brick is reached
-        while abs(deltaX) - ball.size() < self.width and \
-            abs(deltaY) - ball.size() < self.height:
+        while abs(deltaX) - ball.size() < brick.width and \
+            abs(deltaY) - ball.size() < brick.height:
 
             ball._x -= ballDirN[0]
             ball._y -= ballDirN[1]
@@ -96,8 +104,8 @@ class brick():
 
         # Now on the edge, check true type of collision and react to it
         epsilon = 1
-        hHit = abs((abs(deltaX) - ball.size()) - self.width) < epsilon
-        vHit = abs((abs(deltaY) - ball.size()) - self.height) < epsilon
+        hHit = abs((abs(deltaX) - ball.size()) - brick.width) < epsilon
+        vHit = abs((abs(deltaY) - ball.size()) - brick.height) < epsilon
 
         if hHit and vHit: # If corner hit
             ball.bounce(x=True, y=True)
