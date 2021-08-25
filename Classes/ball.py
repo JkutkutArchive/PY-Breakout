@@ -34,11 +34,16 @@ class Ball():
         '''Position of the ball as a tuple (horizontal, vertical).'''
         return (self._x, self._y)
     
+    def direction(self) -> tuple:
+        '''Current vector used to move the ball (velocity).'''
+        return (self._dirX, self._dirY)
+
     def size(self) -> int:
         '''Radius of the ball.'''
         return self._size
     
     def angle(self):
+        '''Angle of the current direction relative to the vector (1, 0)'''
         return math.atan2(self._dirY, self._dirX)
 
     # SETTERS
