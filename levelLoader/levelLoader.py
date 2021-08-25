@@ -38,7 +38,8 @@ def loadLevel(lvl, type="classic"):
     level = getLevel(lvl, type)
 
     bricks = set()
-    bricks.add(Brick(500, 500, width, height, screen))
+    for brickClass, x, y in getIterator(level):
+        bricks.add(brickClass(x, y, screen))
 
     ball = Ball(width / 2, height - 100, width, height, screen)
     player = Player(width / 2, width, height, screen)
@@ -51,3 +52,38 @@ def loadLevel(lvl, type="classic"):
         b.show()
     pygame.display.flip() # Update the screen
     return player, ball, bricks
+
+
+def getIterator(level):
+    ite = set()
+    for l in level["bricks"]:
+        f = None
+        if l["version"] == 1:
+            f = getMk1Iterator
+        
+        ite = ite.union(f(l))
+    return ite
+
+def getMk1Iterator(level):
+    global width, height
+
+    ite = set()
+
+    brickType = None
+    if level["type"] == "normalBrick":
+        brickType = Brick
+    else:
+        brickType = BrickHeavy
+    
+    for r in range(level["rows"]):
+        row = level["verticalStart"] + r * level["gap"]
+        startOffset = brick.width
+        if level["oddRow"]:
+            startOffset = brick.width * 2
+            ite.add((brickType, width / 2, 2 * row * brick.height))
+
+        for w in range(level["horizontalHalfAmount"]):
+            amount = startOffset + w * brick.width * 2
+            for m in (-1, 1):
+                ite.add((brickType, width / 2 + m * amount, 2 * row * brick.height))
+    return ite

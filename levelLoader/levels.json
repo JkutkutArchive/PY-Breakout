@@ -2,8 +2,17 @@
     "classic": [
         {
             "id": 1,
-            "loops": [
-                
+            "bricks": [
+                {
+                    "version": 1,
+                    "type": "normalBrick",
+                    "oddRow": true,
+                    "horizontalHalfAmount": 6,
+                    
+                    "verticalStart": 4,
+                    "rows": 8,
+                    "gap": 1
+                }
             ]
         }
     ]
