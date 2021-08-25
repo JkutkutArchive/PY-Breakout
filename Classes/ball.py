@@ -50,7 +50,7 @@ class Ball():
 
     def move(self) -> None:
         '''Move the ball in the current direction. If a wall is reached, make it bounce.'''
-        self.clearBall() # Make the ball dissapear of the screen
+        self.clear() # Make the ball dissapear of the screen
         
         # Move the ball
         self._x += self._dirX
@@ -78,7 +78,7 @@ class Ball():
             self._y = 0
             # TODO Add logic for ball eliminated
 
-        self.showBall() # Show the ball again
+        self.show() # Show the ball again
         
     def clear(self) -> None:
         '''Clears the ball from the pygame screen.'''
