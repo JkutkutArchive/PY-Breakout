@@ -44,62 +44,34 @@ class brick():
         # temporary variables to set edges for testing
         cx, cy = ball.pos()
         rx, ry = self.pos()
-        rw = self.width * 2
-        rh = self.height * 2
 
-        rx -= self.width
-        ry -= self.height
-        
-        testX = cx
-        testY = cy
+        deltaX = rx - cx
+        deltaY = ry - cy
 
-        # * which edge is closest?
-        closest = ""
-        if cx < rx:
-            testX = rx # left edge
-            closest = "left"
-        elif cx > rx + rw:
-            testX = rx + rw # right edge
-            closest = "right"
-
-        if cy < ry:
-            testY = ry # top edge
-            closest = "top"
-        elif cy > ry + rh:
-            testY = ry + rh # bottom edge
-            closest = "bottom"
-
-        distX = cx - testX
-        distY = cy - testY
-
-        distance = math.sqrt((distX * distX) + (distY * distY))
-
-        # If not collision, end here
-        if not distance <= ball.size(): return
-
-        if closest == "": # If inside the brick but not sure how we went in:
-            # angle = ball.angle()
-            # vec = 
-            angle = math.atan2(cy - ry, cx - rx)
-            print(angle * 180 / math.pi)
-
-            angle -=  math.pi / 4
-
-            if angle < math.pi / 2:
-                closest = "right"
-            elif angle < math.pi:
-                closest = "top"
-            elif angle < math.pi * 1.5:
-                closest = "left"
-            else:
-                closest = "bottom"
-
-
-        print(closest)
-        if closest == "top" or closest == "bottom":
-            ball.bounce(y=True)
-        else:
-            ball.bounce(x=True)
+        if abs(deltaX) > abs(deltaY) * 2: # Horizontal collision
+            # print("Checking horizontal")
+            if abs(deltaX) - ball.size() < self.width: # If vertical hit
+                ball.bounce(x=True)
+                
+                # fix vertical position
+                amount = (ball._x + ball.size()) - (self._x - self.width)
+                if deltaX > 0:
+                    amount *= -1
+                ball.clear()
+                ball._y += amount
+                ball.show()
+        else: # Vertical collision
+            # print(f"Checking vertical: {int(deltaY)} -> {self.height} {ball.size()}")
+            if abs(deltaY) - ball.size() < self.height: # If vertical hit
+                ball.bounce(y=True)
+                
+                # fix vertical position
+                amount = (ball._y + ball.size()) - (self._y - self.height)
+                if deltaY > 0:
+                    amount *= -1
+                ball.clear()
+                ball._y += amount
+                ball.show()
     
     # SETTERS
 

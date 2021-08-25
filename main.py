@@ -26,16 +26,18 @@ bricks = set()
 
 # Create bricks
 unit = width // 15
-# for j in range(5):
-#     for i in range(13):
-#         bricks.add(Brick((i + 1.5) * unit, 100 + j * unit, width, height, screen))
-#     for i in range(12):
-#         bricks.add(Brick((i + 2) * unit, 100 + (j + 0.5) * unit, width, height, screen))
+for j in range(5):
+    for i in range(13):
+        bricks.add(Brick((i + 1.5) * unit, 100 + j * unit, width, height, screen))
+    for i in range(12):
+        bricks.add(Brick((i + 2) * unit, 100 + (j + 0.5) * unit, width, height, screen))
 
-bricks.add(Brick(700, 500, width, height, screen))
-bricks.add(Brick(200, 500, width, height, screen))
-bricks.add(Brick(500, 700, width, height, screen))
-bricks.add(Brick(500, 200, width, height, screen))
+# bricks.add(Brick(700, 500, width, height, screen))
+# bricks.add(Brick(200, 500, width, height, screen))
+# bricks.add(Brick(500, 700, width, height, screen))
+# bricks.add(Brick(500, 200, width, height, screen))
+
+# ball._dirX = 0
 
 
 
@@ -50,12 +52,12 @@ while gameRunning:
     time.sleep(0.04) # set a delay between each iteration
     if timeRunning:
         # Update the ball
-        # ball.move()
-        ball.clearBall()
-        pos = pygame.mouse.get_pos()
-        ball._x = pos[0]
-        ball._y = pos[1]
-        ball.showBall()
+        ball.move()
+        # ball.clear()
+        # pos = pygame.mouse.get_pos()
+        # ball._x = pos[0]
+        # ball._y = pos[1]
+        # ball.show()
 
         if player.inRange(ball):
             player.makeBallBounce(ball)
