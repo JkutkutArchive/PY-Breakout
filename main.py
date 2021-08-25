@@ -4,7 +4,8 @@ import time; # to set a delay between each iteration
 from Classes.color import color;
 from Classes.ball import Ball;
 from Classes.player import Player;
-from Classes.brick import Brick, BrickHeavy;
+# from Classes.brick import Brick, BrickHeavy;
+from levelLoader.levelLoader import *
 
 pygame.init() # Init pygame
 pygame.display.set_caption("Breakout") # Set the title of the game
@@ -15,37 +16,12 @@ COLOR = color() # Get the color class with the constants
 
 screen = pygame.display.set_mode((width, height)) # Set the size of the window
 
-# Setup screen
-screen.fill(COLOR.BG) # Clean screen
+# Setup
+setup(width, height, screen) # Setup level loader properties
 
 # VARIABLES
-ball = Ball(50, 50, width, height, screen)
-player = Player(500, width, height, screen)
-
-bricks = set()
-
-# Create bricks
-unit = width // 15 + 1
-for j in range(5):
-    for i in range(13):
-        bricks.add(Brick((i + 1.5) * unit, 100 + j * unit, width, height, screen))
-    for i in range(12):
-        bricks.add(BrickHeavy((i + 2) * unit, 100 + (j + 0.5) * unit, width, height, screen))
-
-# bricks.add(Brick(700, 500, width, height, screen))
-# bricks.add(Brick(200, 500, width, height, screen))
-# bricks.add(Brick(500, 700, width, height, screen))
-# bricks.add(Brick(500, 200, width, height, screen))
-
-# ball._dirX = 0
-# ball._dirX *= -1
-# bouncesRemaining = 10
-
-
-
-for b in bricks:
-    b.show()
-
+currentLvl = 1
+player, ball, bricks = loadLevel(currentLvl)
 
 gameRunning = True # If false, the game execution ends
 timeRunning = True # If true, time runs
@@ -70,14 +46,13 @@ while gameRunning:
             b.attemptHit(ball)
             if b.destroyed():
                 bricksDestroyed.add(b)
-            # result = b.attemptHit(ball)
-            # if result:
-            #     bouncesRemaining -= 1
-            #     if bouncesRemaining == 0:
-            #         timeRunning = False
-            #         break
         
         bricks -= bricksDestroyed # Remove all bricks destroyed
+        if len(bricks) == 0:
+            timeRunning = False
+            # currentLvl += 1
+            # loadLevel(currentLvl)
+
 
         # Update the screen
         pygame.display.flip() # Update the screen

@@ -17,6 +17,17 @@ def setup(w, h, s):
     height = h
     screen = s
 
+    # update brick size
+    unit = width // 30
+    brick.width = unit
+    brick.height = unit // 2
+
+    # update player size
+    Player.unit = width // 50
+
+    # update ball size
+    Ball.radius = 5
+
 def getLevel(lvl, type="classic"):
     if not isinstance(lvl, int):
         raise Exception("The lvl must be an integer.")
@@ -27,6 +38,7 @@ def loadLevel(lvl, type="classic"):
     level = getLevel(lvl, type)
 
     bricks = set()
+    bricks.add(Brick(500, 500, width, height, screen))
 
     ball = Ball(width / 2, height - 100, width, height, screen)
     player = Player(width / 2, width, height, screen)
