@@ -36,14 +36,12 @@ class brick():
         '''Position of the brick as a tuple (horizontal, vertical).'''
         return (self._x, self._y)
 
-    def getBodyShape(self, offset=0) -> list:
-        '''List of tuples representing the vertices of the brick shape as (horizontal, vertical) vectors.'''
-        return [
-            (self._x - brick.width + offset, self._y - brick.height + offset),
-            (self._x - brick.width + offset, self._y + brick.height - offset),
-            (self._x + brick.width - offset, self._y + brick.height - offset),
-            (self._x + brick.width - offset, self._y - brick.height + offset)
-        ]
+    def getBodyShape(self, offset=0) -> pygame.Rect:
+        '''Object representing the shape of the brick.'''
+        return pygame.Rect(
+            self._x - brick.width + offset, self._y - brick.height + offset,
+            2 * (brick.width - offset), 2 * (brick.height - offset)
+        )
     
     def destroyed(self) -> bool:
         '''Whenever the brick has been destroyed.'''
@@ -54,12 +52,12 @@ class brick():
 
     def clear(self) -> None:
         '''Clears the brick from the pygame screen.'''
-        pygame.draw.polygon(self.screen, color().BG, self.getBodyShape())
+        pygame.draw.rect(self.screen, color().BG, self.getBodyShape())
     
     def show(self) -> None:
         '''Shows the brick from the pygame screen.'''
-        pygame.draw.polygon(self.screen, color().GREY, self.getBodyShape())
-        pygame.draw.polygon(self.screen, self.color(), self.getBodyShape(offset=3))
+        pygame.draw.rect(self.screen, color().GREY, self.getBodyShape())
+        pygame.draw.rect(self.screen, self.color(), self.getBodyShape(offset=3))
 
     def attemptHit(self, ball) -> bool:
         '''Checks if ball colliding with brick and reacts to it.
