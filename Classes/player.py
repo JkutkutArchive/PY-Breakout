@@ -30,13 +30,10 @@ class Player():
     
     def getBodyShape(self) -> list:
         '''List with tuples representing the vertices of the player shape as (horizontal, vertical) vectors.'''
-        return [
-            (self._x - Player.unit * 2.5, self.screenH),
-            (self._x + Player.unit * 2.5, self.screenH),
-
-            (self._x + Player.unit * 3.5, self.screenH - Player.unit),
-            (self._x - Player.unit * 3.5, self.screenH - Player.unit)
-        ]
+        return pygame.Rect(\
+            self._x - Player.unit * 3.5, self.screenH - Player.unit,
+            Player.unit * 7, Player.unit\
+        )
 
 
     # SETTERS
@@ -59,11 +56,12 @@ class Player():
 
     def clear(self) -> None:
         '''Clears the player from the pygame screen.'''
-        pygame.draw.polygon(self.screen, color().BG, self.getBodyShape())
+        pygame.draw.rect(self.screen, color().BG, self.getBodyShape())
 
     def show(self) -> None:
-        '''Shows the player from the pygame screen.'''
-        pygame.draw.polygon(self.screen, self.color(), self.getBodyShape())
+        '''Shows the player on the pygame screen.'''
+        pygame.draw.rect(self.screen, self.color(), self.getBodyShape(), 0, 7)
+
 
 
     # Ball collision logic
