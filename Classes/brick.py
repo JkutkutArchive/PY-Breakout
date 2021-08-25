@@ -39,21 +39,22 @@ class brick():
             (self._x + self.width - offset, self._y - self.height + offset)
         ]
 
-    def attemptHit(self, ball):
-        '''Checks if ball colliding with brick.'''
+    def attemptHit(self, ball) -> bool:
+        '''Checks if ball colliding with brick and reacts to it.
+        
+        Returns whenever the brick has collided with the ball.'''
         cx, cy = ball.pos()
         rx, ry = self.pos()
 
         deltaX = rx - cx
         deltaY = ry - cy
 
+        # Check if it apears to be a collision
         collision = False
         if abs(deltaX) > abs(deltaY) * 2: # Horizontal collision
-            if abs(deltaX) - ball.size() < self.width: # If horizontal hit
-                collision = True
+            collision = abs(deltaX) - ball.size() < self.width # If horizontal hit
         else: # Vertical collision
-            if abs(deltaY) - ball.size() < self.height: # If vertical hit
-                collision = True
+            collision = abs(deltaY) - ball.size() < self.height # If vertical hit
 
         if not collision: return False
 
@@ -61,7 +62,7 @@ class brick():
         self.show()
 
         # Fix position
-        # Get normal vector on the oposite direction of the ball trajectory
+        # Get normal vector of direction of the ball
         ballDirN = ball.direction()
         mag = math.sqrt(ballDirN[0] * ballDirN[0] + ballDirN[1] * ballDirN[1])
         ballDirN = [ballDirN[0] / mag, ballDirN[1] / mag]
@@ -77,7 +78,7 @@ class brick():
             cx, cy = ball.pos()
             deltaX = rx - cx; deltaY = ry - cy
 
-        
+        # Now on the edge, check true type of collision and react to it
         epsilon = 1
         hHit = abs((abs(deltaX) - ball.size()) - self.width) < epsilon
         vHit = abs((abs(deltaY) - ball.size()) - self.height) < epsilon
