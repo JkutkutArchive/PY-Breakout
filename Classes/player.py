@@ -28,8 +28,8 @@ class Player():
         '''Position of the player.'''
         return self._x
     
-    def getBodyShape(self) -> list:
-        '''List with tuples representing the vertices of the player shape as (horizontal, vertical) vectors.'''
+    def getBodyShape(self) -> pygame.Rect:
+        '''Object representing the shape of the player.'''
         return pygame.Rect(\
             self._x - Player.unit * 3.5, self.screenH - Player.unit,
             Player.unit * 7, Player.unit\
