@@ -52,12 +52,12 @@ class brick():
 
     def clear(self) -> None:
         '''Clears the brick from the pygame screen.'''
-        pygame.draw.rect(self.screen, color().BG, self.getBodyShape())
+        pygame.draw.rect(self.screen, color().BG, self.getBodyShape(offset=-1))
     
     def show(self) -> None:
         '''Shows the brick from the pygame screen.'''
-        pygame.draw.rect(self.screen, color().GREY, self.getBodyShape())
-        pygame.draw.rect(self.screen, self.color(), self.getBodyShape(offset=3))
+        pygame.draw.rect(self.screen, color().GREY, self.getBodyShape(offset=-1))
+        pygame.draw.rect(self.screen, self.color(), self.getBodyShape(offset=2))
 
     def attemptHit(self, ball) -> bool:
         '''Checks if ball colliding with brick and reacts to it.
