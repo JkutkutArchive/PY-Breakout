@@ -19,7 +19,7 @@ screen = pygame.display.set_mode((width, height)) # Set the size of the window
 screen.fill(COLOR.BG) # Clean screen
 
 # VARIABLES
-ball = Ball(500, 500, width, height, screen)
+ball = Ball(500, 900, width, height, screen)
 player = Player(500, width, height, screen)
 
 bricks = set()
@@ -62,11 +62,12 @@ while gameRunning:
 
         # Check bricks
         for b in bricks:
-            if b.inRange(ball):
-                # timeRunning = False
-                # print("in range")
-                # break
-                pass
+            b.attemptHit(ball)
+            # if b.inRange(ball):
+            #     # timeRunning = False
+            #     # print("in range")
+            #     # break
+            #     pass
 
         # Update the screen
         pygame.display.flip() # Update the screen

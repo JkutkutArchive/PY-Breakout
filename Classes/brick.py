@@ -39,7 +39,7 @@ class brick():
             (self._x + self.width - offset, self._y - self.height + offset)
         ]
 
-    def inRange(self, ball):
+    def attemptHit(self, ball):
         '''Checks if ball colliding with brick. Code based on code from http://jeffreythompson.org/collision-detection/circle-rect.php'''
         # temporary variables to set edges for testing
         cx, cy = ball.pos()
@@ -74,10 +74,32 @@ class brick():
 
         distance = math.sqrt((distX * distX) + (distY * distY))
 
-        if distance <= ball.size():
-            print(closest)
-        
-        return distance <= ball.size()
+        # If not collision, end here
+        if not distance <= ball.size(): return
+
+        if closest == "": # If inside the brick but not sure how we went in:
+            # angle = ball.angle()
+            # vec = 
+            angle = math.atan2(cy - ry, cx - rx)
+            print(angle * 180 / math.pi)
+
+            angle -=  math.pi / 4
+
+            if angle < math.pi / 2:
+                closest = "right"
+            elif angle < math.pi:
+                closest = "top"
+            elif angle < math.pi * 1.5:
+                closest = "left"
+            else:
+                closest = "bottom"
+
+
+        print(closest)
+        if closest == "top" or closest == "bottom":
+            ball.bounce(y=True)
+        else:
+            ball.bounce(x=True)
     
     # SETTERS
 
