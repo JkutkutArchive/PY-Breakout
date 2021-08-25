@@ -37,6 +37,9 @@ class Ball():
     def size(self) -> int:
         '''Radius of the ball.'''
         return self._size
+    
+    def angle(self):
+        return math.atan2(self._dirY, self._dirX)
 
     # SETTERS
     
