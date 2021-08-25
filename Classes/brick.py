@@ -8,13 +8,11 @@ class brick():
     height = 0
     width = 0
 
-    def __init__(self, x, y, screenW, screenH, screen) -> None:
+    def __init__(self, x, y, screen) -> None:
         # Store position
         self._x = x
         self._y = y
-
-        self.screenW = screenW
-        self.screenH = screenH
+        
         self.screen = screen
 
         self._color = color().WHITE
@@ -133,8 +131,8 @@ class brick():
 class Brick(brick):
     '''Class with the logic of the bricks from Breakout.'''
 
-    def __init__(self, x, y, screenW, screenH, screen) -> None:
-        super().__init__(x, y, screenW, screenH, screen)
+    def __init__(self, x, y, screen) -> None:
+        super().__init__(x, y, screen)
 
         self.health = 1
     
@@ -151,7 +149,7 @@ class Brick(brick):
 class BrickHeavy(brick):
     '''Indestructible brick.'''
 
-    def __init__(self, x, y, screenW, screenH, screen) -> None:
-        super().__init__(x, y, screenW, screenH, screen)
+    def __init__(self, x, y, screen) -> None:
+        super().__init__(x, y, screen)
         self._color = color().BG
     
