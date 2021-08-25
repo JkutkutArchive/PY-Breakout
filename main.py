@@ -7,6 +7,10 @@ from levelLoader.levelLoader import *
 pygame.init() # Init pygame
 pygame.display.set_caption("Breakout") # Set the title of the game
 
+gameIcon = pygame.image.load('Res/joystick.png')
+pygame.display.set_icon(gameIcon)
+
+
 # CONSTANTS
 width, height = 800, 1000
 COLOR = color() # Get the color class with the constants
