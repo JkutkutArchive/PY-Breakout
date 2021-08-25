@@ -82,9 +82,8 @@ class brick():
         hHit = abs((abs(deltaX) - ball.size()) - self.width) < epsilon
         vHit = abs((abs(deltaY) - ball.size()) - self.height) < epsilon
 
-        if hHit and vHit:
-            print("double hit?")
-            print(ballDirN)
+        if hHit and vHit: # If corner hit
+            ball.bounce(x=True, y=True)
 
         elif hHit: # If horizontal hit
             ball.bounce(x=True)
