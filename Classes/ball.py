@@ -1,4 +1,4 @@
-import pygame, math;
+import pygame, math, random;
 from Classes.color import *;
 
 class Ball():
@@ -20,7 +20,7 @@ class Ball():
         self._dirX = None
         self._dirY = None
         self.mag = 18 # Velocity of the ball
-        self.changeAngle(- math.pi /3)
+        self.changeAngle(math.pi / 3 * (random.random() * 2 - 1))
 
         self._color = color().WHITE
 
