@@ -24,7 +24,7 @@ class Breakout():
     gameRunning = True
     timeRunning = True
     currentLvl = 0
-    player, ball, bricks = (None, None, None)
+    player, ball, bricks = (None, None, set())
 
     def __init__(self, title, logo, width, height) -> None:
         Breakout.title =  title
@@ -63,10 +63,25 @@ class Breakout():
         
         Breakout.screen = pygame.display.set_mode((Breakout.width, Breakout.height))
 
-    
+        Breakout.updateFullScreen()
+
+        # self.mainMenu()
+
+    def updateFullScreen():
+        '''Clear the screen and update it with the new level'''
+        Breakout.screen.fill(Breakout.COLOR.BG) # Clear screen
+        if Breakout.player != None:
+            Breakout.player.show()
+        if Breakout.ball != None:
+            Breakout.ball.show()
+        for b in Breakout.bricks:
+            b.show()
+        pygame.display.flip() # Update the screen
+
     def loadNextLevel(self):
         Breakout.player, Breakout.ball, Breakout.bricks = loadLevel(Breakout.currentLvl + 1)
         Breakout.currentLvl = (Breakout.currentLvl + 1) % 3
+        Breakout.updateFullScreen()
 
 
     def loop(self):
