@@ -1,32 +1,15 @@
 import json
-import pygame
-from Classes.color import color
-from Classes.player import Player
-from Classes.ball import Ball
+import pygame;
+from Classes.player import Player;
+from Classes.ball import Ball;
 from Classes.brick import *;
 
-COLOR = color()
-width = None
-height = None
-screen = None
 levels = json.load(open("levelLoader/levels.json", "r"))
+Breakout = None
 
-def setup(w, h, s):
-    global width, height, screen
-    width = w
-    height = h
-    screen = s
-
-    # update brick size
-    unit = width // 30
-    brick.width = unit
-    brick.height = unit // 2
-
-    # update player size
-    Player.unit = width // 50
-
-    # update ball size
-    Ball.radius = 5
+def setup(breakoutClass):
+    global Breakout
+    Breakout = breakoutClass
 
 def getLevel(lvl, type="classic"):
     global levels
@@ -35,7 +18,8 @@ def getLevel(lvl, type="classic"):
     return levels[type][lvl - 1]
 
 def loadLevel(lvl, type="classic"):
-    global width, height, screen
+    global Breakout
+    width, height, screen = (Breakout.width, Breakout.height, Breakout.screen)
     level = getLevel(lvl, type)
 
     bricks = set()
@@ -46,7 +30,7 @@ def loadLevel(lvl, type="classic"):
     player = Player(width / 2, width, height, screen)
 
     # Clear the screen and update it with the new level
-    screen.fill(COLOR.BG) # Clean screen
+    screen.fill(Breakout.COLOR.BG) # Clean screen
     player.show()
     ball.show()
     for b in bricks:
@@ -68,7 +52,7 @@ def getIterator(level):
     return ite
 
 def getWallIterator(level):
-    global width
+    global Breakout
     ite = set()
 
     brickType = getBrickType(level)
@@ -79,16 +63,16 @@ def getWallIterator(level):
         if level["oddRow"]:
             startOffset = brick.width * 2 + 1
             if not level["skipOddRow"]:
-                ite.add((brickType, width / 2, row * (2 * brick.height + 1)))
+                ite.add((brickType, Breakout.width / 2, row * (2 * brick.height + 1)))
 
         for w in range(level["horizontalHalfAmount"]):
             amount = startOffset + w * (brick.width * 2 * level["horizontalGap"] + 1)
             for m in (-1, 1):
-                ite.add((brickType, width / 2 + m * amount, row * (2 * brick.height + 1)))
+                ite.add((brickType, Breakout.width / 2 + m * amount, row * (2 * brick.height + 1)))
     return ite
 
 def getCentralMassIterator(level):
-    global width
+    global Breakout
     ite = set()
 
     brickType = getBrickType(level)
@@ -103,12 +87,12 @@ def getCentralMassIterator(level):
             startOffset = brick.width
             if level["oddStart"]:
                 startOffset = brick.width * 2 + 1
-                ite.add((brickType, width / 2, row * (2 * brick.height + 1)))
+                ite.add((brickType, Breakout.width / 2, row * (2 * brick.height + 1)))
             
             for w in range(currentRadius):
                 amount = startOffset + w * (brick.width * 2 + 1)
                 for m in (-1, 1):
-                    ite.add((brickType, width / 2 + m * amount, row * (2 * brick.height + 1)))
+                    ite.add((brickType, Breakout.width / 2 + m * amount, row * (2 * brick.height + 1)))
             currentRadius += growDir * growRate
             row += 1
         currentRadius -= 1
