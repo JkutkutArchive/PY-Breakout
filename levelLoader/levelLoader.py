@@ -1,5 +1,4 @@
 import json
-import pygame;
 from Classes.player import Player;
 from Classes.ball import Ball;
 from Classes.brick import *;
@@ -19,23 +18,15 @@ def getLevel(lvl, type="classic"):
 
 def loadLevel(lvl, type="classic"):
     global Breakout
-    width, height, screen = (Breakout.width, Breakout.height, Breakout.screen)
     level = getLevel(lvl, type)
 
     bricks = set()
     for brickClass, x, y in getIterator(level):
-        bricks.add(brickClass(x, y, screen))
+        bricks.add(brickClass(x, y, Breakout.screen))
 
-    ball = Ball(width / 2, height - 100, width, height, screen)
-    player = Player(width / 2, width, height, screen)
+    ball = Ball(Breakout.width / 2, Breakout.height - 100, Breakout.width, Breakout.height, Breakout.screen)
+    player = Player(Breakout.width / 2, Breakout.width, Breakout.height, Breakout.screen)
 
-    # Clear the screen and update it with the new level
-    screen.fill(Breakout.COLOR.BG) # Clean screen
-    player.show()
-    ball.show()
-    for b in bricks:
-        b.show()
-    pygame.display.flip() # Update the screen
     return player, ball, bricks
 
 
