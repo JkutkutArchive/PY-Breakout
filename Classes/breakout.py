@@ -40,9 +40,7 @@ class Breakout():
 
         setup(Breakout)
 
-        self.loadNextLevel()
-
-        self.loop()
+        self.mainMenu()
 
     def resize(self, width=None, height=None):
         if width != None:
@@ -62,10 +60,6 @@ class Breakout():
             Breakout.height = height
         
         Breakout.screen = pygame.display.set_mode((Breakout.width, Breakout.height))
-
-        Breakout.updateFullScreen()
-
-        # self.mainMenu()
 
     def updateFullScreen():
         '''Clear the screen and update it with the new level'''
@@ -129,14 +123,48 @@ class Breakout():
                     Breakout.gameRunning = False # no longer running game
                 
                 elif event.type == pygame.KEYDOWN: # Key pressed
-                    if event.key == 32: # Space pressed
+                    if event.key == pygame.K_SPACE: # Space pressed
                         Breakout.timeRunning = not Breakout.timeRunning # Toggle the run of iterations
-                    elif event.key == 276 or event.key == 97: # Arrow left
+                    elif event.key == pygame.K_a or event.key == pygame.K_LEFT: # Arrow left
                         Breakout.player.moveLeft()
-                    elif event.key == 275 or event.key == 100: # Arrow right
+                    elif event.key == pygame.K_d or event.key == pygame.K_RIGHT: # Arrow right
                         Breakout.player.moveRight()
                     elif event.key == 110: # n pressed
                         self.loadNextLevel()
+
+    def mainMenu(self):
+        # Setup
+        big = pygame.font.SysFont(None, 72)
+        img1 = big.render('Play game', True, (0, 0, 200))
+
+
+        change = True # Whenever a change has been made        
+        while Breakout.gameRunning:
+            if change:
+                Breakout.screen.fill(Breakout.COLOR.BG) # Clear screen
+
+                Breakout.screen.blit(img1, (20, 20))
+
+                pygame.display.flip() # Update the screen
+                change = False
+
+
+            for event in pygame.event.get(): # for each event
+                if event.type == pygame.QUIT: # if quit btn pressed
+                    Breakout.gameRunning = False # no longer running game
+                
+                elif event.type == pygame.KEYDOWN: # Key pressed
+                    if event.key == pygame.K_w or event.key == pygame.K_UP: # Up arrow
+                        print("Up")
+                    if event.key == pygame.K_s or event.key == pygame.K_DOWN: # Down arrow
+                        print("Down")
+                    if event.key == pygame.K_a or event.key == pygame.K_LEFT: # Arrow left
+                        print("Left")
+                    elif event.key == pygame.K_d or event.key == pygame.K_RIGHT: # Arrow right
+                        print("Right")
+                
+                change = True
+            
 
         print("\nThanks for playing, I hope you liked it.")
         print("See more projects like this one on https://github.com/jkutkut/")
