@@ -162,18 +162,18 @@ class Breakout():
                 "heightPerOne": 0.7
             },
             {
-                "title": "Right => A    D <= Left",
+                "title": "     Controls WASD and ENTER     ",
                 "textSize": mediumText,
                 "textColor": (0, 0, 0),
-                "containerColor": (80, 80, 80),
-                "heightPerOne": 0.9
+                "containerColor": (150, 150, 150),
+                "heightPerOne": 0.92
             },
             {
-                "title": "(Arrows also work :S)",
+                "title": "(Arrows and mouse also work =D)",
                 "textSize": mediumText,
                 "textColor": (0, 0, 0),
-                "containerColor": (80, 80, 80),
-                "heightPerOne": 0.95
+                "containerColor": (150, 150, 150),
+                "heightPerOne": 0.97
             }
         ]
 
@@ -229,15 +229,15 @@ class Breakout():
                 
                 elif event.type == pygame.KEYDOWN: # Key pressed
                     if event.key == pygame.K_w or event.key == pygame.K_UP: # Up arrow
-                        print("Up")
+                        # print("Up")
                         if current <= 0:
                             current = clickableBtns
                         current -= 1
                     elif event.key == pygame.K_s or event.key == pygame.K_DOWN: # Down arrow
-                        print("Down")
+                        # print("Down")
                         current = (current + 1) % clickableBtns
                     elif event.key == 13: # Enter pressed
-                        print("ENTER")
+                        # print("ENTER")
                         if current == 0: # If play button pressed, Let's play
                             Breakout.gameRunning = True # Make sure the game is running now
                             Breakout.currentLvl = 0 # Start from the first level
@@ -253,6 +253,21 @@ class Breakout():
                         print("Left")
                     elif event.key == pygame.K_d or event.key == pygame.K_RIGHT: # Arrow right
                         print("Right")
+
+                if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0] == 1:
+                    #if mouse pressed down and it is left click: 
+                    print("left click")
+                elif event.type == pygame.MOUSEMOTION:
+                    pos = pygame.mouse.get_pos()
+                    # x = floor(pos[0] / sizeWidthX)
+                    y = pos[1] / Breakout.height # Per-one of the height of the window (0 -> 1)
+
+                    deltaY = 0.1
+                    for i in range(clickableBtns):
+                        h = btns[i]["heightPerOne"]
+                        if abs(y - h) < deltaY:
+                            current = i
+
                 
                 change = True
             
