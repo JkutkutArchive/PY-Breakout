@@ -3,7 +3,7 @@ from Classes.color import color
 from Classes.brick import *
 from Classes.player import Player
 from Classes.ball import Ball
-from levelLoader.levelLoader import setup, loadLevel
+from levelLoader.levelLoader import setup, loadLevel, nextBrickType;
 
 class Breakout():
     # UI properties
@@ -265,9 +265,8 @@ class Breakout():
                     Breakout.currentLvl = 0 # Start from the first level
                     self.loadNextLevel()
                     self.loop()
-                    pass
-                elif current == 1:
-                    pass
+                elif current == 1: # If type of brick selected
+                    nextBrickType()
                 elif current == 2: # If "more projects" selected, open the browser tab
                     webbrowser.open("https://github.com/Jkutkut/Jkutkut-projects")
 

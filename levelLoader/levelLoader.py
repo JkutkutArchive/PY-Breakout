@@ -111,6 +111,9 @@ def getCentralMassIterator(level):
 
 
 # Help functions
+def nextBrickType():
+    global brickTypeIndex, brickTypes
+    brickTypeIndex = (brickTypeIndex + 1) % len(brickTypes)
 
 def getBrickType(level):
     if level["brickType"] == "normalBrick":
