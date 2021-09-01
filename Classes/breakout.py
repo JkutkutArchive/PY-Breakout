@@ -146,28 +146,35 @@ class Breakout():
                 "textSize": bigText,
                 "textColor": (0, 0, 0),
                 "containerColor": (193, 193, 193),
-                "heightPerOne": 0.4
+                "heightPerOne": 0.3
+            },
+            {
+                "title": "Type of brick",
+                "textSize": bigText,
+                "textColor": (0, 0, 0),
+                "containerColor": (193, 193, 193),
+                "heightPerOne": 0.5
             },
             {
                 "title": "More projects",
                 "textSize": bigText,
                 "textColor": (0, 0, 0),
                 "containerColor": (193, 193, 193),
-                "heightPerOne": 0.6
+                "heightPerOne": 0.7
             },
             {
                 "title": "Right => A    D <= Left",
                 "textSize": mediumText,
                 "textColor": (0, 0, 0),
                 "containerColor": (80, 80, 80),
-                "heightPerOne": 0.8
+                "heightPerOne": 0.9
             },
             {
                 "title": "(Arrows also work :S)",
                 "textSize": mediumText,
                 "textColor": (0, 0, 0),
                 "containerColor": (80, 80, 80),
-                "heightPerOne": 0.85
+                "heightPerOne": 0.95
             }
         ]
 
@@ -179,12 +186,12 @@ class Breakout():
             btnsRendered.append({
                 "obj": playG, # Text
                 "pos": ((Breakout.width - playG.get_width()) // 2, Breakout.height * b["heightPerOne"]),
-                "container": ( # Rectangle container of the text
+                "container": [ # Rectangle container of the text
                     (Breakout.width - playG.get_width() - offset) // 2,
                     Breakout.height * b["heightPerOne"] - offset // 2,
                     playG.get_width() + offset,
                     playG.get_height() + offset
-                ),
+                ],
                 "containerColor": b["containerColor"]
             })
 
