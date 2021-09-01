@@ -145,6 +145,12 @@ class Breakout():
                 "textColor": (0, 0, 200),
                 "containerColor": (200, 200, 200),
                 "heightPerOne": 0.2
+            },
+            {
+                "title": "More projects",
+                "textColor": (0, 0, 200),
+                "containerColor": (200, 200, 200),
+                "heightPerOne": 0.4
             }
         ]
 
@@ -152,14 +158,16 @@ class Breakout():
 
         for b in btns:
             playG = bigText.render(b["title"], True, b["textColor"])
-            playG_pos = ((Breakout.width - playG.get_width()) // 2, Breakout.height * b["heightPerOne"])
-            playG_size = [(playG.get_width() + offset), (playG.get_height() + offset)]
-            playG_container = tuple([(Breakout.width - playG.get_width() - offset) // 2, Breakout.height * b["heightPerOne"] - offset // 2] + playG_size)
 
             btnsRendered.append({
-                "obj": playG,
-                "pos": playG_pos,
-                "container": playG_container,
+                "obj": playG, # Text
+                "pos": ((Breakout.width - playG.get_width()) // 2, Breakout.height * b["heightPerOne"]),
+                "container": ( # Rectangle container of the text
+                    (Breakout.width - playG.get_width() - offset) // 2,
+                    Breakout.height * b["heightPerOne"] - offset // 2,
+                    playG.get_width() + offset,
+                    playG.get_height() + offset
+                ),
                 "containerColor": b["containerColor"]
             })
 
@@ -168,8 +176,10 @@ class Breakout():
             if change:
                 Breakout.screen.fill(Breakout.COLOR.BG) # Clear screen
 
-                for b in btnsRendered:
+                for b in btnsRendered: # For all buttons
+                    # Draw container
                     pygame.draw.rect(Breakout.screen, b["containerColor"], b["container"])
+                    # Write text on top
                     Breakout.screen.blit(b["obj"], b["pos"])
 
                 pygame.display.flip() # Update the screen
