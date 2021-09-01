@@ -1,5 +1,4 @@
-import time
-import pygame
+import pygame, time, webbrowser
 from Classes.color import color
 from Classes.brick import *
 from Classes.player import Player
@@ -232,9 +231,18 @@ class Breakout():
                         if current <= 0:
                             current = clickableBtns
                         current -= 1
-                    if event.key == pygame.K_s or event.key == pygame.K_DOWN: # Down arrow
+                    elif event.key == pygame.K_s or event.key == pygame.K_DOWN: # Down arrow
                         print("Down")
                         current = (current + 1) % clickableBtns
+                    elif event.key == 13: # Enter pressed
+                        print("ENTER")
+                        if current == 0:
+                            pass
+                        elif current == 1:
+                            pass
+                        else: # If more project selected, open the browser tab
+                            webbrowser.open("https://github.com/Jkutkut/Jkutkut-projects")
+
                     if event.key == pygame.K_a or event.key == pygame.K_LEFT: # Arrow left
                         print("Left")
                     elif event.key == pygame.K_d or event.key == pygame.K_RIGHT: # Arrow right
