@@ -204,14 +204,13 @@ class Breakout():
                 for i in range(len(btnsRendered)): # For all buttons
                     b = btnsRendered[i]
 
-                    if current == i: # If btn is selected
+                    if current == i: # If btn is selected, draw shadow
                         shape = b["container"][:]
-                        shadowOffset = [10, 10]
                         for j in range(2):
-                            shape[j] += shadowOffset[j]
+                            shape[j] += 8
                         shadowColor = list(b["containerColor"])
                         for j in range(3):
-                            shadowColor[j] -= 40
+                            shadowColor[j] -= 120
                         pygame.draw.rect(Breakout.screen, shadowColor, shape)
 
                     # Draw container
@@ -230,8 +229,12 @@ class Breakout():
                 elif event.type == pygame.KEYDOWN: # Key pressed
                     if event.key == pygame.K_w or event.key == pygame.K_UP: # Up arrow
                         print("Up")
+                        if current <= 0:
+                            current = clickableBtns
+                        current -= 1
                     if event.key == pygame.K_s or event.key == pygame.K_DOWN: # Down arrow
                         print("Down")
+                        current = (current + 1) % clickableBtns
                     if event.key == pygame.K_a or event.key == pygame.K_LEFT: # Arrow left
                         print("Left")
                     elif event.key == pygame.K_d or event.key == pygame.K_RIGHT: # Arrow right
