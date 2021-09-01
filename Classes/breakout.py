@@ -3,7 +3,7 @@ from Classes.color import color
 from Classes.brick import *
 from Classes.player import Player
 from Classes.ball import Ball
-from levelLoader.levelLoader import setup, loadLevel, nextBrickType;
+from levelLoader.levelLoader import setup, loadLevel, nextBrickType, getIterator;
 
 class Breakout():
     # UI properties
@@ -135,12 +135,47 @@ class Breakout():
 
     def mainMenu(self):
         # Setup
+        
+        # Title bricks
+        level = {
+            "bricks": [
+                {
+                    "type": "wall",
+                    "brickType": "normalBrick",
 
+                    "oddRow": True,
+                    "skipOddRow": False,
+                    "horizontalHalfAmount": 4,
+                    
+                    "verticalStart": 1,
+                    "rows": 4,
+                    "verticalGap": 1,
+                    "horizontalGap": 1
+                },
+                {
+                    "type": "wall",
+                    "brickType": "heavyBrick",
+
+                    "oddRow": True,
+                    "skipOddRow": False,
+                    "horizontalHalfAmount": 4,
+                    
+                    "verticalStart": 5,
+                    "rows": 1,
+                    "verticalGap": 1,
+                    "horizontalGap": 1
+                }
+            ]
+        }
+        bricks = set()
+        for brickClass, x, y in getIterator(level):
+            bricks.add(brickClass(x, y, Breakout.screen))
+        
         # Buttons
         bigText = pygame.font.SysFont(None, Breakout.height // 15)
         mediumText = pygame.font.SysFont(None, Breakout.height // 30)
         offset = 50
-
+        
         btns = [
             {
                 "title": "    Play    ",
@@ -180,7 +215,7 @@ class Breakout():
         ]
 
         btnsRendered = []
-
+        
         for b in btns:
             playG = b["textSize"].render(b["title"], True, b["textColor"])
 
@@ -202,6 +237,9 @@ class Breakout():
         while mainMenuRunning:
             if change:
                 Breakout.screen.fill(Breakout.COLOR.BG) # Clear screen
+
+                for b in bricks:
+                    b.show()
 
                 for i in range(len(btnsRendered)): # For all buttons
                     b = btnsRendered[i]
@@ -267,6 +305,9 @@ class Breakout():
                     self.loop()
                 elif current == 1: # If type of brick selected
                     nextBrickType()
+                    bricks = set()
+                    for brickClass, x, y in getIterator(level):
+                        bricks.add(brickClass(x, y, Breakout.screen))
                 elif current == 2: # If "more projects" selected, open the browser tab
                     webbrowser.open("https://github.com/Jkutkut/Jkutkut-projects")
 
