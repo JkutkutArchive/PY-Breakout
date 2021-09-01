@@ -137,27 +137,44 @@ class Breakout():
 
         # Buttons
         bigText = pygame.font.SysFont(None, Breakout.height // 15)
+        mediumText = pygame.font.SysFont(None, Breakout.height // 30)
         offset = 50
 
         btns = [
             {
                 "title": "Play game",
-                "textColor": (0, 0, 200),
-                "containerColor": (200, 200, 200),
-                "heightPerOne": 0.2
+                "textSize": bigText,
+                "textColor": (0, 0, 0),
+                "containerColor": (193, 193, 193),
+                "heightPerOne": 0.4
             },
             {
                 "title": "More projects",
-                "textColor": (0, 0, 200),
-                "containerColor": (200, 200, 200),
-                "heightPerOne": 0.4
+                "textSize": bigText,
+                "textColor": (0, 0, 0),
+                "containerColor": (193, 193, 193),
+                "heightPerOne": 0.6
+            },
+            {
+                "title": "Right => A    D <= Left",
+                "textSize": mediumText,
+                "textColor": (0, 0, 0),
+                "containerColor": (80, 80, 80),
+                "heightPerOne": 0.8
+            },
+            {
+                "title": "(Arrows also work :S)",
+                "textSize": mediumText,
+                "textColor": (0, 0, 0),
+                "containerColor": (80, 80, 80),
+                "heightPerOne": 0.85
             }
         ]
 
         btnsRendered = []
 
         for b in btns:
-            playG = bigText.render(b["title"], True, b["textColor"])
+            playG = b["textSize"].render(b["title"], True, b["textColor"])
 
             btnsRendered.append({
                 "obj": playG, # Text
