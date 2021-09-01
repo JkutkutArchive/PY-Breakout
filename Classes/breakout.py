@@ -221,56 +221,47 @@ class Breakout():
                 pygame.display.flip() # Update the screen
                 change = False
 
-
+            btnPressed = False
             for event in pygame.event.get(): # for each event
                 if event.type == pygame.QUIT: # if quit btn pressed
-                    # Breakout.gameRunning = False
                     mainMenuRunning = False # no longer running game
                 
                 elif event.type == pygame.KEYDOWN: # Key pressed
                     if event.key == pygame.K_w or event.key == pygame.K_UP: # Up arrow
-                        # print("Up")
                         if current <= 0:
                             current = clickableBtns
                         current -= 1
                     elif event.key == pygame.K_s or event.key == pygame.K_DOWN: # Down arrow
-                        # print("Down")
                         current = (current + 1) % clickableBtns
                     elif event.key == 13: # Enter pressed
-                        # print("ENTER")
-                        if current == 0: # If play button pressed, Let's play
-                            Breakout.gameRunning = True # Make sure the game is running now
-                            Breakout.currentLvl = 0 # Start from the first level
-                            self.loadNextLevel()
-                            self.loop()
-                            pass
-                        elif current == 1:
-                            pass
-                        else: # If more project selected, open the browser tab
-                            webbrowser.open("https://github.com/Jkutkut/Jkutkut-projects")
-
-                    if event.key == pygame.K_a or event.key == pygame.K_LEFT: # Arrow left
-                        print("Left")
-                    elif event.key == pygame.K_d or event.key == pygame.K_RIGHT: # Arrow right
-                        print("Right")
+                        btnPressed = True
 
                 if event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0] == 1:
-                    #if mouse pressed down and it is left click: 
-                    print("left click")
-                elif event.type == pygame.MOUSEMOTION:
-                    pos = pygame.mouse.get_pos()
-                    # x = floor(pos[0] / sizeWidthX)
-                    y = pos[1] / Breakout.height # Per-one of the height of the window (0 -> 1)
+                    #if mouse pressed down and it is left click:
+                    btnPressed = True # Act as if the enter key has been pressed
 
+                elif event.type == pygame.MOUSEMOTION:
+                    y = pygame.mouse.get_pos()[1] / Breakout.height # Per-one of the height of the window (0 -> 1)
                     deltaY = 0.1
                     for i in range(clickableBtns):
                         h = btns[i]["heightPerOne"]
                         if abs(y - h) < deltaY:
                             current = i
+                            break
 
-                
                 change = True
             
+            if btnPressed:
+                if current == 0: # If play button pressed, Let's play
+                    Breakout.gameRunning = True # Make sure the game is running now
+                    Breakout.currentLvl = 0 # Start from the first level
+                    self.loadNextLevel()
+                    self.loop()
+                    pass
+                elif current == 1:
+                    pass
+                else: # If more project selected, open the browser tab
+                    webbrowser.open("https://github.com/Jkutkut/Jkutkut-projects")
 
         print("\nThanks for playing, I hope you liked it.")
         print("See more projects like this one on https://github.com/jkutkut/")
