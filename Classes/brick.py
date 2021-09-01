@@ -127,7 +127,6 @@ class brick():
         pass
 
 
-
 class Brick(brick):
     '''Class with the logic of the bricks from Breakout.'''
 
@@ -145,7 +144,6 @@ class Brick(brick):
     def destroyed(self) -> bool:
         return self.health <= 0
 
-
 class BrickHeavy(brick):
     '''Indestructible brick.'''
 
@@ -155,7 +153,6 @@ class BrickHeavy(brick):
     
     def borderColor(self) -> tuple:
         return self.color()
-
 
 
 # ColorFull
@@ -191,7 +188,6 @@ class BrickHeavy_semiRandomColor(BrickHeavy_colorFull):
     def __init__(self, x, y, screen) -> None:
         super().__init__(x, y, screen)
         self._color = BrickHeavy_colorFull.colors[random.randint(0, len(BrickHeavy_colorFull.colors) - 1)]
-        
 
 # Random color
 class Brick_randomColor(Brick):
