@@ -78,7 +78,9 @@ class Breakout():
 
 
     def loop(self):
-        text = pygame.font.SysFont(None, Breakout.height // 60)
+        text = pygame.font.SysFont(None, Breakout.height // 30)
+        score = 0
+        scoreText, scorePosition, scoreContainer = (None, None, None)
 
         while Breakout.gameRunning:
             time.sleep(0.04) # set a delay between each iteration
@@ -90,22 +92,36 @@ class Breakout():
                     Breakout.player.makeBallBounce(Breakout.ball)
 
                 # Check bricks
-                bricksDestroyed = set()
+                bricksDestroyed = set(); scoreEarned = 0
+                # TODO Add class variable to keep track of all the bricks hitted since last player-ball collision (to change the score)
                 for b in Breakout.bricks:
                     b.attemptHit(Breakout.ball)
                     if b.destroyed():
                         bricksDestroyed.add(b)
+                        # scoreEarned += b.getHitPoints()
+                        scoreEarned += 10
                 
                 Breakout.bricks -= bricksDestroyed # Remove all bricks destroyed
                 if len(Breakout.bricks) == 0:
                     self.loadNextLevel()
                     continue
                 
-                if len(bricksDestroyed) > 0: # If any brick hitted, print them all again to avoid ball-shadow-cliping
+                if len(bricksDestroyed) > 0: # If any brick hitted
+                    # Print all remaining bricks again to avoid ball-shadow-cliping
                     for b in Breakout.bricks:
                         b.show()
+                    
+                    # Update score label
+                    score += scoreEarned # TODO change logic to give more points to the player if multiple bricks hitted
+                    scoreText = text.render(f"{score}", True, Breakout.COLOR.WHITE)
+                    scorePosition = ((Breakout.width - scoreText.get_width()) // 2, scoreText.get_height() // 2)
+                    scoreContainer = [ (Breakout.width - scoreText.get_width() - 20) // 2, scoreText.get_height() // 2 - 10, scoreText.get_width() + 20, scoreText.get_height() + 20]
 
                 Breakout.ball.show()
+
+                if scoreEarned > 0 or Breakout.ball.pos()[1] < 100:
+                    pygame.draw.rect(Breakout.screen, Breakout.COLOR.BG, scoreContainer)
+                    Breakout.screen.blit(scoreText, scorePosition)
 
                 # Update the screen
                 pygame.display.flip() # Update the screen
