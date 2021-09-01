@@ -14,5 +14,11 @@ class color(object): #Create the COLOR class as a collection of constants
     def GREY():
         return (128, 128, 128)
     @constant
+    def GREYBORDER():
+        return (188, 188, 188)
+    @constant
     def WHITE():
         return (255, 255, 255)
+    @constant
+    def BLACK():
+        return (0, 0, 0)
