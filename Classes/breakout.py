@@ -268,7 +268,7 @@ class Breakout():
                     pass
                 elif current == 1:
                     pass
-                else: # If more project selected, open the browser tab
+                elif current == 2: # If "more projects" selected, open the browser tab
                     webbrowser.open("https://github.com/Jkutkut/Jkutkut-projects")
 
         print("\nThanks for playing, I hope you liked it.")
