@@ -134,16 +134,23 @@ class Breakout():
 
     def mainMenu(self):
         # Setup
-        big = pygame.font.SysFont(None, 72)
-        img1 = big.render('Play game', True, (0, 0, 200))
 
+        # Buttons
+        offset = 50
+
+        bigText = pygame.font.SysFont(None, Breakout.height // 15)
+        playG = bigText.render('Play game', True, (0, 0, 200))
+        playG_pos = [(Breakout.width - playG.get_width()) // 2, Breakout.height * 0.2]
+        playG_size = [(playG.get_width() + offset), (playG.get_height() + offset)]
+        playG_container = tuple([(Breakout.width - playG.get_width() - offset) // 2, Breakout.height * 0.2 - offset // 2] + playG_size)
 
         change = True # Whenever a change has been made        
         while Breakout.gameRunning:
             if change:
                 Breakout.screen.fill(Breakout.COLOR.BG) # Clear screen
 
-                Breakout.screen.blit(img1, (20, 20))
+                pygame.draw.rect(Breakout.screen, (200, 200, 200), playG_container)
+                Breakout.screen.blit(playG, playG_pos)
 
                 pygame.display.flip() # Update the screen
                 change = False
