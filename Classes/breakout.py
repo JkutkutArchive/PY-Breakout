@@ -195,12 +195,25 @@ class Breakout():
                 "containerColor": b["containerColor"]
             })
 
-        change = True # Whenever a change has been made        
+        change = True # Whenever a change has been made (to update the screen)
+        clickableBtns = 3; current = 0 
         while Breakout.gameRunning:
             if change:
                 Breakout.screen.fill(Breakout.COLOR.BG) # Clear screen
 
-                for b in btnsRendered: # For all buttons
+                for i in range(len(btnsRendered)): # For all buttons
+                    b = btnsRendered[i]
+
+                    if current == i: # If btn is selected
+                        shape = b["container"][:]
+                        shadowOffset = [10, 10]
+                        for j in range(2):
+                            shape[j] += shadowOffset[j]
+                        shadowColor = list(b["containerColor"])
+                        for j in range(3):
+                            shadowColor[j] -= 40
+                        pygame.draw.rect(Breakout.screen, shadowColor, shape)
+
                     # Draw container
                     pygame.draw.rect(Breakout.screen, b["containerColor"], b["container"])
                     # Write text on top
