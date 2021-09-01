@@ -1,4 +1,4 @@
-import pygame, math;
+import pygame, math, random;
 from Classes.color import color;
 
 class brick():
@@ -150,4 +150,50 @@ class BrickHeavy(brick):
     def __init__(self, x, y, screen) -> None:
         super().__init__(x, y, screen)
         self._color = color().BG
-    
+
+
+# ColorFull
+class Brick_colorFull(Brick):
+    colors = [
+        (240, 241, 78),
+        (109, 237, 138),
+        (22, 69, 245),
+        (255, 95, 133),
+        (237, 56, 51)
+    ]
+
+    def __init__(self, x, y, screen) -> None:
+        super().__init__(x, y, screen)
+        cIndex = int(x + y) % len(Brick_colorFull.colors)
+        self._color = Brick_colorFull.colors[cIndex]
+
+class BrickHeavy_colorFull(BrickHeavy):
+    colors = [tuple([max(0, i - 100) for i in t]) for t in Brick_colorFull.colors]
+
+    def __init__(self, x, y, screen) -> None:
+        super().__init__(x, y, screen)
+        cIndex = int(x + y) % len(BrickHeavy_colorFull.colors)
+        self._color = BrickHeavy_colorFull.colors[cIndex]
+
+# SemiRandom Color
+class Brick_semiRandomColor(Brick_colorFull):
+    def __init__(self, x, y, screen) -> None:
+        super().__init__(x, y, screen)
+        self._color = Brick_colorFull.colors[random.randint(0, len(Brick_colorFull.colors) - 1)]
+        
+class BrickHeavy_semiRandomColor(BrickHeavy_colorFull):
+    def __init__(self, x, y, screen) -> None:
+        super().__init__(x, y, screen)
+        self._color = BrickHeavy_colorFull.colors[random.randint(0, len(BrickHeavy_colorFull.colors) - 1)]
+        
+
+# Random color
+class Brick_randomColor(Brick):
+    def __init__(self, x, y, screen) -> None:
+        super().__init__(x, y, screen)
+        self._color = tuple([random.randint(50, 255) for _ in range(3)])
+
+class BrickHeavy_randomColor(BrickHeavy):
+    def __init__(self, x, y, screen) -> None:
+        super().__init__(x, y, screen)
+        self._color = tuple([random.randint(0, 200) for _ in range(3)])
