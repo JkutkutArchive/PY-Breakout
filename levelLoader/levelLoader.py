@@ -6,7 +6,7 @@ from Classes.brick import *;
 levels = json.load(open("levelLoader/levels.json", "r"))
 Breakout = None
 
-brickTypeIndex = 2
+brickTypeIndex = 0
 brickTypes = [
     { # Classic
         "Normal": Brick,
