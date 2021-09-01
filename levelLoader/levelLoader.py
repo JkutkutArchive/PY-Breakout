@@ -6,6 +6,26 @@ from Classes.brick import *;
 levels = json.load(open("levelLoader/levels.json", "r"))
 Breakout = None
 
+brickTypeIndex = 2
+brickTypes = [
+    { # Classic
+        "Normal": Brick,
+        "Heavy": BrickHeavy
+    },
+    { # ColorFull
+        "Normal": Brick_colorFull,
+        "Heavy": BrickHeavy_colorFull
+    },
+    { # SemiRandom
+        "Normal": Brick_semiRandomColor,
+        "Heavy": BrickHeavy_semiRandomColor
+    },
+    { # RandomColor
+        "Normal": Brick_randomColor,
+        "Heavy": BrickHeavy_randomColor
+    }
+]
+
 def setup(breakoutClass):
     global Breakout
     Breakout = breakoutClass
@@ -94,6 +114,6 @@ def getCentralMassIterator(level):
 
 def getBrickType(level):
     if level["brickType"] == "normalBrick":
-        return Brick
+        return brickTypes[brickTypeIndex]["Normal"]
     else:
-        return BrickHeavy
+        return brickTypes[brickTypeIndex]["Heavy"]
