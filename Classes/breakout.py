@@ -122,7 +122,9 @@ class Breakout():
                     Breakout.gameRunning = False # no longer running game
                 
                 elif event.type == pygame.KEYDOWN: # Key pressed
-                    if event.key == pygame.K_SPACE: # Space pressed
+                    if event.key == pygame.K_ESCAPE: # ESCAPE key pressed
+                        Breakout.gameRunning = False
+                    elif event.key == pygame.K_SPACE: # Space pressed
                         Breakout.timeRunning = not Breakout.timeRunning # Toggle the run of iterations
                     elif event.key == pygame.K_a or event.key == pygame.K_LEFT: # Arrow left
                         Breakout.player.moveLeft()
@@ -227,7 +229,9 @@ class Breakout():
                     mainMenuRunning = False # no longer running game
                 
                 elif event.type == pygame.KEYDOWN: # Key pressed
-                    if event.key == pygame.K_w or event.key == pygame.K_UP: # Up arrow
+                    if event.key == pygame.K_ESCAPE: # ESCAPE key pressed
+                        mainMenuRunning = False
+                    elif event.key == pygame.K_w or event.key == pygame.K_UP: # Up arrow
                         if current <= 0:
                             current = clickableBtns
                         current -= 1
@@ -241,13 +245,17 @@ class Breakout():
                     btnPressed = True # Act as if the enter key has been pressed
 
                 elif event.type == pygame.MOUSEMOTION:
-                    y = pygame.mouse.get_pos()[1] / Breakout.height # Per-one of the height of the window (0 -> 1)
-                    deltaY = 0.1
-                    for i in range(clickableBtns):
-                        h = btns[i]["heightPerOne"]
-                        if abs(y - h) < deltaY:
-                            current = i
-                            break
+                    pos = pygame.mouse.get_pos()
+                    current = -1 # At the moment, focus lost
+                    if abs(pos[0] - Breakout.width // 2) / Breakout.width < 0.3: # If mouse in range of btns
+                        # Get the aimed btn (if there is one)
+                        deltaY = 0.1
+                        y = pos[1] / Breakout.height # Per-one of the height of the window (0 -> 1)
+                        for i in range(clickableBtns):
+                            h = btns[i]["heightPerOne"]
+                            if abs(y - h) < deltaY:
+                                current = i
+                                break
 
                 change = True
             
