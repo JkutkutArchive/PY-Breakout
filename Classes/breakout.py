@@ -78,12 +78,14 @@ class Breakout():
 
 
     def loop(self):
+        text = pygame.font.SysFont(None, Breakout.height // 60)
+
         while Breakout.gameRunning:
             time.sleep(0.04) # set a delay between each iteration
             if Breakout.timeRunning:
+                Breakout.ball.clear()
                 # Update the ball
                 Breakout.ball.move()
-
                 if Breakout.player.inRange(Breakout.ball):
                     Breakout.player.makeBallBounce(Breakout.ball)
 
@@ -98,7 +100,12 @@ class Breakout():
                 if len(Breakout.bricks) == 0:
                     self.loadNextLevel()
                     continue
+                
+                if len(bricksDestroyed) > 0: # If any brick hitted, print them all again to avoid ball-shadow-cliping
+                    for b in Breakout.bricks:
+                        b.show()
 
+                Breakout.ball.show()
 
                 # Update the screen
                 pygame.display.flip() # Update the screen
