@@ -16,9 +16,7 @@ class brick():
         self.screen = screen
 
         self._color = color().WHITE
-
-        # brick.width = brick.width
-        # brick.height = brick.height
+        self._borderColor = color().GREYBORDER
 
     # GETTERS
 
@@ -31,6 +29,10 @@ class brick():
     def color(self) -> tuple:
         '''RGB tuple with the current color of the brick.'''
         return self._color
+    
+    def borderColor(self) -> tuple:
+        '''RGB tuple with the current color of the border of the brick'''
+        return self._borderColor
 
     def pos(self) -> tuple:
         '''Position of the brick as a tuple (horizontal, vertical).'''
@@ -52,12 +54,12 @@ class brick():
 
     def clear(self) -> None:
         '''Clears the brick from the pygame screen.'''
-        pygame.draw.rect(self.screen, color().BG, self.getBodyShape(offset=-1))
+        pygame.draw.rect(self.screen, color().BG, self.getBodyShape(offset=-0.5))
     
     def show(self) -> None:
         '''Shows the brick from the pygame screen.'''
-        pygame.draw.rect(self.screen, color().GREY, self.getBodyShape(offset=-1))
-        pygame.draw.rect(self.screen, self.color(), self.getBodyShape(offset=2))
+        pygame.draw.rect(self.screen, self.borderColor(), self.getBodyShape(offset=-0.5))
+        pygame.draw.rect(self.screen, self.color(), self.getBodyShape(offset=1))
 
     def attemptHit(self, ball) -> bool:
         '''Checks if ball colliding with brick and reacts to it.
@@ -149,7 +151,11 @@ class BrickHeavy(brick):
 
     def __init__(self, x, y, screen) -> None:
         super().__init__(x, y, screen)
-        self._color = color().BG
+        self._color = color().GREY
+    
+    def borderColor(self) -> tuple:
+        return self.color()
+
 
 
 # ColorFull
