@@ -143,25 +143,25 @@ class Breakout():
 
         btns = [
             {
-                "title": "Play game",
+                "title": "    Play    ",
                 "textSize": bigText,
                 "textColor": (0, 0, 0),
                 "containerColor": (193, 193, 193),
-                "heightPerOne": 0.3
+                "heightPerOne": 0.575
             },
             {
                 "title": "Type of brick",
-                "textSize": bigText,
-                "textColor": (0, 0, 0),
-                "containerColor": (193, 193, 193),
-                "heightPerOne": 0.5
-            },
-            {
-                "title": "More projects",
-                "textSize": bigText,
+                "textSize": mediumText,
                 "textColor": (0, 0, 0),
                 "containerColor": (193, 193, 193),
                 "heightPerOne": 0.7
+            },
+            {
+                "title": "More projects",
+                "textSize": mediumText,
+                "textColor": (0, 0, 0),
+                "containerColor": (193, 193, 193),
+                "heightPerOne": 0.8
             },
             {
                 "title": "     Controls WASD and ENTER     ",
