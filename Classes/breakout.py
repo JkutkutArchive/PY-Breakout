@@ -136,21 +136,41 @@ class Breakout():
         # Setup
 
         # Buttons
+        bigText = pygame.font.SysFont(None, Breakout.height // 15)
         offset = 50
 
-        bigText = pygame.font.SysFont(None, Breakout.height // 15)
-        playG = bigText.render('Play game', True, (0, 0, 200))
-        playG_pos = [(Breakout.width - playG.get_width()) // 2, Breakout.height * 0.2]
-        playG_size = [(playG.get_width() + offset), (playG.get_height() + offset)]
-        playG_container = tuple([(Breakout.width - playG.get_width() - offset) // 2, Breakout.height * 0.2 - offset // 2] + playG_size)
+        btns = [
+            {
+                "title": "Play game",
+                "textColor": (0, 0, 200),
+                "containerColor": (200, 200, 200),
+                "heightPerOne": 0.2
+            }
+        ]
+
+        btnsRendered = []
+
+        for b in btns:
+            playG = bigText.render(b["title"], True, b["textColor"])
+            playG_pos = ((Breakout.width - playG.get_width()) // 2, Breakout.height * b["heightPerOne"])
+            playG_size = [(playG.get_width() + offset), (playG.get_height() + offset)]
+            playG_container = tuple([(Breakout.width - playG.get_width() - offset) // 2, Breakout.height * b["heightPerOne"] - offset // 2] + playG_size)
+
+            btnsRendered.append({
+                "obj": playG,
+                "pos": playG_pos,
+                "container": playG_container,
+                "containerColor": b["containerColor"]
+            })
 
         change = True # Whenever a change has been made        
         while Breakout.gameRunning:
             if change:
                 Breakout.screen.fill(Breakout.COLOR.BG) # Clear screen
 
-                pygame.draw.rect(Breakout.screen, (200, 200, 200), playG_container)
-                Breakout.screen.blit(playG, playG_pos)
+                for b in btnsRendered:
+                    pygame.draw.rect(Breakout.screen, b["containerColor"], b["container"])
+                    Breakout.screen.blit(b["obj"], b["pos"])
 
                 pygame.display.flip() # Update the screen
                 change = False
