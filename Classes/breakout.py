@@ -195,8 +195,9 @@ class Breakout():
             })
 
         change = True # Whenever a change has been made (to update the screen)
-        clickableBtns = 3; current = 0 
-        while Breakout.gameRunning:
+        clickableBtns = 3; current = 0
+        mainMenuRunning = True
+        while mainMenuRunning:
             if change:
                 Breakout.screen.fill(Breakout.COLOR.BG) # Clear screen
 
@@ -223,7 +224,8 @@ class Breakout():
 
             for event in pygame.event.get(): # for each event
                 if event.type == pygame.QUIT: # if quit btn pressed
-                    Breakout.gameRunning = False # no longer running game
+                    # Breakout.gameRunning = False
+                    mainMenuRunning = False # no longer running game
                 
                 elif event.type == pygame.KEYDOWN: # Key pressed
                     if event.key == pygame.K_w or event.key == pygame.K_UP: # Up arrow
@@ -236,7 +238,11 @@ class Breakout():
                         current = (current + 1) % clickableBtns
                     elif event.key == 13: # Enter pressed
                         print("ENTER")
-                        if current == 0:
+                        if current == 0: # If play button pressed, Let's play
+                            Breakout.gameRunning = True # Make sure the game is running now
+                            Breakout.currentLvl = 0 # Start from the first level
+                            self.loadNextLevel()
+                            self.loop()
                             pass
                         elif current == 1:
                             pass
