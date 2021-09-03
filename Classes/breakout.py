@@ -24,6 +24,8 @@ class Breakout():
     timeRunning = True
     currentLvl = 0
     player, ball, bricks = (None, None, set())
+    score = 0
+    multipleHits = 0
 
     def __init__(self, title, logo, width, height) -> None:
         Breakout.title =  title
@@ -79,7 +81,8 @@ class Breakout():
 
     def loop(self):
         text = pygame.font.SysFont(None, Breakout.height // 30)
-        score = 0
+        Breakout.score = 0
+        Breakout.multipleHits = 0
         scoreText, scorePosition, scoreContainer = (None, None, None)
 
         while Breakout.gameRunning:
@@ -90,16 +93,18 @@ class Breakout():
                 Breakout.ball.move()
                 if Breakout.player.inRange(Breakout.ball):
                     Breakout.player.makeBallBounce(Breakout.ball)
+                    Breakout.multipleHits = 0 # When player hits the ball, this var resets
 
                 # Check bricks
                 bricksDestroyed = set(); scoreEarned = 0
-                # TODO Add class variable to keep track of all the bricks hitted since last player-ball collision (to change the score)
                 for b in Breakout.bricks:
-                    b.attemptHit(Breakout.ball)
-                    if b.destroyed():
-                        bricksDestroyed.add(b)
-                        # scoreEarned += b.getHitPoints()
-                        scoreEarned += 10
+                    hit = b.attemptHit(Breakout.ball)
+                    if hit:
+                        scoreBase = 100 # TODO get this value from Brick
+                        scoreEarned += scoreBase * (1 + min(3, Breakout.multipleHits // 10))
+                        Breakout.multipleHits += 1
+                        if b.destroyed():
+                            bricksDestroyed.add(b)
                 
                 Breakout.bricks -= bricksDestroyed # Remove all bricks destroyed
                 if len(Breakout.bricks) == 0:
@@ -111,9 +116,9 @@ class Breakout():
                     for b in Breakout.bricks:
                         b.show()
                     
-                    # Update score label
-                    score += scoreEarned # TODO change logic to give more points to the player if multiple bricks hitted
-                    scoreText = text.render(f"{score}", True, Breakout.COLOR.WHITE)
+                    # Update score label     
+                    Breakout.score += int(scoreEarned)
+                    scoreText = text.render(f"{Breakout.score}", True, Breakout.COLOR.WHITE)
                     scorePosition = ((Breakout.width - scoreText.get_width()) // 2, scoreText.get_height() // 2)
                     scoreContainer = [ (Breakout.width - scoreText.get_width() - 20) // 2, scoreText.get_height() // 2 - 10, scoreText.get_width() + 20, scoreText.get_height() + 20]
 

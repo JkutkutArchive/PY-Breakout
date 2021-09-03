@@ -154,6 +154,10 @@ class BrickHeavy(brick):
     def borderColor(self) -> tuple:
         return self.color()
 
+class BrickHard(Brick):
+    def __init__(self, x, y, screen) -> None:
+        super().__init__(x, y, screen)
+        self.health = 2
 
 # ColorFull
 class Brick_colorFull(Brick):
