@@ -78,8 +78,8 @@ class Ball():
             self._y -= self._y - self.size()
             self.bounce(y=True)
         elif self._y > self.screenH: # If bottom reached
-            self._y = 0
-            # TODO Add logic for ball eliminated
+            return True # Return bottom reached
+        return False # Return the bottom has not been reached
         
     def clear(self) -> None:
         '''Clears the ball from the pygame screen.'''
