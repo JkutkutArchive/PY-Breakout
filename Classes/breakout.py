@@ -84,13 +84,18 @@ class Breakout():
         Breakout.score = 0
         Breakout.multipleHits = 0
         scoreText, scorePosition, scoreContainer = (None, None, None)
+        reason2exitLoop = None # This will be updated to the reason to exit this method
 
         while Breakout.gameRunning:
             time.sleep(0.04) # set a delay between each iteration
             if Breakout.timeRunning:
                 Breakout.ball.clear()
                 # Update the ball
-                Breakout.ball.move()
+                bottomReached = Breakout.ball.move()
+                if (bottomReached):
+                    Breakout.gameRunning = False
+                    reason2exitLoop = "bottomReached"
+                    break
                 if Breakout.player.inRange(Breakout.ball):
                     Breakout.player.makeBallBounce(Breakout.ball)
                     Breakout.multipleHits = 0 # When player hits the ball, this var resets
@@ -139,10 +144,8 @@ class Breakout():
                     Breakout.player.moveRight()
             for event in pygame.event.get(): # for each event
                 if event.type == pygame.WINDOWFOCUSLOST: # If change on the focus of the window
-                    print("lost focus")
                     Breakout.timeRunning = False
                 elif event.type == pygame.WINDOWFOCUSGAINED: # If focus recovered
-                    print("focus")
                     Breakout.timeRunning = True
 
                 elif event.type == pygame.QUIT: # if quit btn pressed
@@ -150,6 +153,7 @@ class Breakout():
                 
                 elif event.type == pygame.KEYDOWN: # Key pressed
                     if event.key == pygame.K_ESCAPE: # ESCAPE key pressed
+                        reason2exitLoop = "ESC"
                         Breakout.gameRunning = False
                     elif event.key == pygame.K_SPACE: # Space pressed
                         Breakout.timeRunning = not Breakout.timeRunning # Toggle the run of iterations
@@ -159,6 +163,8 @@ class Breakout():
                         Breakout.player.moveRight()
                     elif event.key == 110: # n pressed
                         self.loadNextLevel()
+        
+        return reason2exitLoop # When exiting, return the reason why it endend
 
     def mainMenu(self):
         # Setup
@@ -329,7 +335,11 @@ class Breakout():
                     Breakout.gameRunning = True # Make sure the game is running now
                     Breakout.currentLvl = 0 # Start from the first level
                     self.loadNextLevel()
-                    self.loop()
+                    reason2exit = self.loop() # Play the game until it is ended.
+
+                    if reason2exit == "bottomReached":
+                        print("Going to endGame")
+                        self.endGame()
                 elif current == 1: # If type of brick selected
                     nextBrickType()
                     bricks = set()
@@ -341,3 +351,34 @@ class Breakout():
         print("\nThanks for playing, I hope you liked it.")
         print("See more projects like this one on https://github.com/jkutkut/")
         pygame.quit() # End the pygame
+
+    def endGame(self):
+        endGameRunning = True
+        change = True # Whenever a change has been made (to update the screen)
+
+        while endGameRunning:
+            if change:
+                Breakout.screen.fill(Breakout.COLOR.BG) # Clear screen
+                change = False
+
+                # Update the screen
+                pygame.display.flip() # Update the screen
+            
+
+            for event in pygame.event.get(): # for each event
+                change = True
+
+                if event.type == pygame.QUIT: # if quit btn pressed
+                    endGameRunning = False # no longer running game
+                
+                elif event.type == pygame.KEYDOWN: # Key pressed
+                    if event.key == pygame.K_ESCAPE: # ESCAPE key pressed
+                        endGameRunning = False
+                #     elif event.key == pygame.K_SPACE: # Space pressed
+                #         Breakout.timeRunning = not Breakout.timeRunning # Toggle the run of iterations
+                #     elif event.key == pygame.K_a or event.key == pygame.K_LEFT: # Arrow left
+                #         Breakout.player.moveLeft()
+                #     elif event.key == pygame.K_d or event.key == pygame.K_RIGHT: # Arrow right
+                #         Breakout.player.moveRight()
+                #     elif event.key == 110: # n pressed
+                #         self.loadNextLevel()
