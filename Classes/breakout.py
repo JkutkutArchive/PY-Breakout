@@ -138,13 +138,12 @@ class Breakout():
                 elif k[pygame.K_RIGHT] or k[pygame.K_d]: # arrow right
                     Breakout.player.moveRight()
             for event in pygame.event.get(): # for each event
-                if (event.type == pygame.ACTIVEEVENT and event.state == 2): # If change on the focus of the window
-                    if event.gain == 0: # If focus lost
-                        print("lost focus")
-                        Breakout.timeRunning = True
-                    elif event.gain == 1: # If focus recovered
-                        print("focus")
-                        Breakout.timeRunning = False
+                if event.type == pygame.WINDOWFOCUSLOST: # If change on the focus of the window
+                    print("lost focus")
+                    Breakout.timeRunning = False
+                elif event.type == pygame.WINDOWFOCUSGAINED: # If focus recovered
+                    print("focus")
+                    Breakout.timeRunning = True
 
                 elif event.type == pygame.QUIT: # if quit btn pressed
                     Breakout.gameRunning = False # no longer running game
