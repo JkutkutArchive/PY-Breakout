@@ -410,7 +410,7 @@ class Breakout():
                 "textSize": mediumText,
                 "textColor": (0, 0, 0),
                 "containerColor": (193, 193, 193),
-                "heightPerOne": 0.40
+                "heightPerOne": 0.45
             }
 
         ]
@@ -478,6 +478,23 @@ class Breakout():
                         current = (current + 1) % clickableBtns
                     elif event.key == 13: # Enter pressed
                         btnPressed = True
+                
+                elif event.type == pygame.MOUSEBUTTONDOWN and pygame.mouse.get_pressed()[0] == 1:
+                    #if mouse pressed down and it is left click:
+                    btnPressed = True # Act as if the enter key has been pressed
+
+                elif event.type == pygame.MOUSEMOTION:
+                    pos = pygame.mouse.get_pos()
+                    current = -1 # At the moment, focus lost
+                    if abs(pos[0] - Breakout.width // 2) / Breakout.width < 0.3: # If mouse in range of btns
+                        # Get the aimed btn (if there is one)
+                        deltaY = 0.1
+                        y = pos[1] / Breakout.height # Per-one of the height of the window (0 -> 1)
+                        for i in range(clickableBtns):
+                            h = btns[i]["heightPerOne"]
+                            if abs(y - h) < deltaY:
+                                current = i
+                                break
                 
             if btnPressed:
                 if current == 1: # If continue
