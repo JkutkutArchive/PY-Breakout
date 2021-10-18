@@ -1,3 +1,5 @@
+import os.path
+
 import pygame, time, webbrowser
 from Classes.color import color
 from Classes.brick import *
@@ -6,6 +8,7 @@ from Classes.ball import Ball
 from levelLoader.levelLoader import setup, loadLevel, nextBrickType, getIterator;
 
 class Breakout():
+    scoreLocationFile="Res/score.txt"
     # UI properties
     title = ""
     logoURL = ""
@@ -353,6 +356,20 @@ class Breakout():
         pygame.quit() # End the pygame
 
     def endGame(self):
+        previousHS = 0
+        f = None
+        if os.path.exists(Breakout.scoreLocationFile):
+            previousHS = int(open(Breakout.scoreLocationFile).read())
+        
+        f = open(Breakout.scoreLocationFile, "wt")
+        highScoreText = f'High score: {previousHS}'
+        if Breakout.score > previousHS:
+            highScoreText = "New high score!"
+            f.write(f'{Breakout.score}')
+        else:
+            f.write(f'{previousHS}')
+        f.close()
+
         # Buttons
         hugeText = pygame.font.SysFont(None, Breakout.height // 7)
         bigText = pygame.font.SysFont(None, Breakout.height // 15)
@@ -387,7 +404,15 @@ class Breakout():
                 "textColor": (0, 0, 0),
                 "containerColor": (193, 193, 193),
                 "heightPerOne": 0.25
+            },
+            {
+                "title": f'{highScoreText}'.center(10),
+                "textSize": mediumText,
+                "textColor": (0, 0, 0),
+                "containerColor": (193, 193, 193),
+                "heightPerOne": 0.40
             }
+
         ]
 
         btnsRendered = []
