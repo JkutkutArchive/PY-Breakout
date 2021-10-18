@@ -353,18 +353,89 @@ class Breakout():
         pygame.quit() # End the pygame
 
     def endGame(self):
+        # Buttons
+        hugeText = pygame.font.SysFont(None, Breakout.height // 7)
+        bigText = pygame.font.SysFont(None, Breakout.height // 15)
+        mediumText = pygame.font.SysFont(None, Breakout.height // 30)
+        offset = 50
+        
+        btns = [
+            {
+                "title": "More projects",
+                "textSize": mediumText,
+                "textColor": (0, 0, 0),
+                "containerColor": (193, 193, 193),
+                "heightPerOne": 0.8
+            },
+            {
+                "title": "    Continue    ",
+                "textSize": bigText,
+                "textColor": (0, 0, 0),
+                "containerColor": (193, 193, 193),
+                "heightPerOne": 0.90
+            },
+            {
+                "title": f'    Score    ',
+                "textSize": bigText,
+                "textColor": (0, 0, 0),
+                "containerColor": (193, 193, 193),
+                "heightPerOne": 0.1
+            },
+            {
+                "title": f'{Breakout.score}'.center(18),
+                "textSize": hugeText,
+                "textColor": (0, 0, 0),
+                "containerColor": (193, 193, 193),
+                "heightPerOne": 0.25
+            }
+        ]
+
+        btnsRendered = []
+        
+        for b in btns:
+            playG = b["textSize"].render(b["title"], True, b["textColor"])
+
+            btnsRendered.append({
+                "obj": playG, # Text
+                "pos": ((Breakout.width - playG.get_width()) // 2, Breakout.height * b["heightPerOne"]),
+                "container": [ # Rectangle container of the text
+                    (Breakout.width - playG.get_width() - offset) // 2,
+                    Breakout.height * b["heightPerOne"] - offset // 2,
+                    playG.get_width() + offset,
+                    playG.get_height() + offset
+                ],
+                "containerColor": b["containerColor"]
+            })
+
+        clickableBtns = 2; current = 1
         endGameRunning = True
         change = True # Whenever a change has been made (to update the screen)
 
         while endGameRunning:
             if change:
                 Breakout.screen.fill(Breakout.COLOR.BG) # Clear screen
-                change = False
+                for i in range(len(btnsRendered)): # For all buttons
+                    b = btnsRendered[i]
 
+                    if current == i: # If btn is selected, draw shadow
+                        shape = b["container"][:]
+                        for j in range(2):
+                            shape[j] += 8
+                        shadowColor = list(b["containerColor"])
+                        for j in range(3):
+                            shadowColor[j] -= 120
+                        pygame.draw.rect(Breakout.screen, shadowColor, shape)
+
+                    # Draw container
+                    pygame.draw.rect(Breakout.screen, b["containerColor"], b["container"])
+                    # Write text on top
+                    Breakout.screen.blit(b["obj"], b["pos"])
+                
+                change = False
                 # Update the screen
                 pygame.display.flip() # Update the screen
             
-
+            btnPressed = False
             for event in pygame.event.get(): # for each event
                 change = True
 
@@ -374,11 +445,17 @@ class Breakout():
                 elif event.type == pygame.KEYDOWN: # Key pressed
                     if event.key == pygame.K_ESCAPE: # ESCAPE key pressed
                         endGameRunning = False
-                #     elif event.key == pygame.K_SPACE: # Space pressed
-                #         Breakout.timeRunning = not Breakout.timeRunning # Toggle the run of iterations
-                #     elif event.key == pygame.K_a or event.key == pygame.K_LEFT: # Arrow left
-                #         Breakout.player.moveLeft()
-                #     elif event.key == pygame.K_d or event.key == pygame.K_RIGHT: # Arrow right
-                #         Breakout.player.moveRight()
-                #     elif event.key == 110: # n pressed
-                #         self.loadNextLevel()
+                    elif event.key == pygame.K_w or event.key == pygame.K_UP: # Up arrow
+                        if current <= 0:
+                            current = clickableBtns
+                        current -= 1
+                    elif event.key == pygame.K_s or event.key == pygame.K_DOWN: # Down arrow
+                        current = (current + 1) % clickableBtns
+                    elif event.key == 13: # Enter pressed
+                        btnPressed = True
+                
+            if btnPressed:
+                if current == 1: # If continue
+                    endGameRunning = False # no longer running game
+                elif current == 0: # If "more projects" selected, open the browser tab
+                    webbrowser.open("https://github.com/Jkutkut/Jkutkut-projects")
