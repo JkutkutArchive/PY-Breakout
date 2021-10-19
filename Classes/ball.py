@@ -19,7 +19,7 @@ class Ball():
         # store direction
         self._dirX = None
         self._dirY = None
-        self.mag = 18 # Velocity of the ball
+        self.mag = 9 # Velocity of the ball
         self.changeAngle(math.pi / 6 * (random.random() * 2 - 1) + math.pi / 2)
 
         self._color = color().WHITE

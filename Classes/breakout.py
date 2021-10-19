@@ -90,7 +90,7 @@ class Breakout():
         reason2exitLoop = None # This will be updated to the reason to exit this method
 
         while Breakout.gameRunning:
-            time.sleep(0.04) # set a delay between each iteration
+            time.sleep(0.02) # set a delay between each iteration
             if Breakout.timeRunning:
                 Breakout.ball.clear()
                 # Update the ball
