@@ -349,7 +349,7 @@ class Breakout():
                     for brickClass, x, y in getIterator(level):
                         bricks.add(brickClass(x, y, Breakout.screen))
                 elif current == 2: # If "more projects" selected, open the browser tab
-                    webbrowser.open("https://github.com/Jkutkut/Jkutkut-projects")
+                    webbrowser.open("https://github.com/Jkutkut")
 
         print("\nThanks for playing, I hope you liked it.")
         print("See more projects like this one on https://github.com/jkutkut/")
